@@ -3,6 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/UHERO/rest-api/common"
+	"github.com/UHERO/rest-api/routers"
 	"log"
 	"net"
 	"net/http"
@@ -10,9 +12,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/UHERO/rest-api/common"
-	"github.com/UHERO/rest-api/data"
-	"github.com/UHERO/rest-api/routers"
 	"github.com/garyburd/redigo/redis"
 	"github.com/go-sql-driver/mysql"
 	"github.com/urfave/negroni"
@@ -28,7 +27,7 @@ func main() {
 	}
 	dbName, ok := os.LookupEnv("DB_DBNAME")
 	if !ok {
-		dbName = "uhero_db_dev"
+		dbName = "dbedt_visitor_dw"
 	}
 	mysqlConfig := mysql.Config{
 		User:      os.Getenv("DB_USER"),
@@ -92,26 +91,10 @@ func main() {
 		},
 	}
 
-	applicationRepository := &data.ApplicationRepository{DB: db}
-	categoryRepository := &data.CategoryRepository{DB: db}
-	seriesRepository := &data.SeriesRepository{DB: db}
-	searchRepository := &data.SearchRepository{Categories: categoryRepository, Series: seriesRepository}
-	measurementRepository := &data.MeasurementRepository{DB: db}
-	geographyRepository := &data.GeographyRepository{DB: db}
-	feedbackRepository := &data.FeedbackRepository{}
-	cacheRepository := &data.CacheRepository{Pool: pool, TTL: 60 * 10} //TTL in seconds
+	cache := &data.Cache{Pool: pool, TTL: 60 * 10} //TTL in seconds
 
 	// Get the mux router object
-	router := routers.InitRoutes(
-		applicationRepository,
-		categoryRepository,
-		seriesRepository,
-		searchRepository,
-		measurementRepository,
-		geographyRepository,
-		feedbackRepository,
-		cacheRepository,
-	)
+	router := routers.InitRoutes(cache)
 	// Create a negroni instance
 	n := negroni.Classic()
 	n.UseHandler(router)

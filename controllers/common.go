@@ -1,24 +1,22 @@
 package controllers
 
 import (
-	"encoding/json"
 	"errors"
+	"github.com/UHERO/rest-api/common"
+	"github.com/UHERO/rest-api/data"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
-	"github.com/UHERO/rest-api/common"
-	"github.com/UHERO/rest-api/data"
-	"github.com/UHERO/rest-api/models"
-	"github.com/gorilla/mux"
 )
 
-func CheckCache(c *data.CacheRepository) func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
+func CheckCache(c *data.Cache) func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 		url := GetFullRelativeURL(r)
-		cached_val, _ := c.GetCache(url)
-		if cached_val != nil {
-			WriteResponse(w, cached_val)
+		cachedVal, _ := c.GetCache(url)
+		if cachedVal != nil {
+			WriteResponse(w, cachedVal)
 			return
 		}
 		next(w, r)
@@ -26,12 +24,12 @@ func CheckCache(c *data.CacheRepository) func(http.ResponseWriter, *http.Request
 	}
 }
 
-func CheckCacheFresh(c *data.CacheRepository) func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
+func CheckCacheFresh(c *data.Cache) func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 		url := data.GetCensusReqURI(r)
-		cached_val_fresh, _ := c.GetCache(url + ":fresh")
-		if cached_val_fresh != nil {
-			WriteResponse(w, cached_val_fresh)
+		cachedValFresh, _ := c.GetCache(url + ":fresh")
+		if cachedValFresh != nil {
+			WriteResponse(w, cachedValFresh)
 			return
 		}
 		next(w, r)
@@ -45,7 +43,7 @@ func WriteResponse(w http.ResponseWriter, payload []byte) {
 	w.Write(payload)
 }
 
-func WriteCache(r *http.Request, c *data.CacheRepository, payload []byte) {
+func WriteCache(r *http.Request, c *data.Cache, payload []byte) {
 	url := GetFullRelativeURL(r)
 	err := c.SetCache(url, payload)
 	if err != nil {
@@ -60,54 +58,6 @@ func GetFullRelativeURL(r *http.Request) string {
 		return path
 	}
 	return path + "?" + r.URL.RawQuery
-}
-
-func returnSeriesList(seriesList []models.DataPortalSeries, err error, w http.ResponseWriter, r *http.Request, c *data.CacheRepository) {
-	if err != nil {
-		common.DisplayAppError(
-			w,
-			err,
-			"An unexpected error has occurred",
-			500,
-		)
-		return
-	}
-	j, err := json.Marshal(SeriesListResource{Data: seriesList})
-	if err != nil {
-		common.DisplayAppError(
-			w,
-			err,
-			"An unexpected error processing JSON has occurred",
-			500,
-		)
-		return
-	}
-	WriteResponse(w, j)
-	WriteCache(r, c, j)
-}
-
-func returnInflatedSeriesList(seriesList []models.InflatedSeries, err error, w http.ResponseWriter, r *http.Request, c *data.CacheRepository) {
-	if err != nil {
-		common.DisplayAppError(
-			w,
-			err,
-			"An unexpected error has occurred",
-			500,
-		)
-		return
-	}
-	j, err := json.Marshal(InflatedSeriesListResource{Data: seriesList})
-	if err != nil {
-		common.DisplayAppError(
-			w,
-			err,
-			"An unexpected error processing JSON has occurred",
-			500,
-		)
-		return
-	}
-	WriteResponse(w, j)
-	WriteCache(r, c, j)
 }
 
 func getIntParam(r *http.Request, name string) (id int64, ok bool) {
