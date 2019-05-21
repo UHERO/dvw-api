@@ -1,13 +1,13 @@
 package routers
 
 import (
-	"github.com/UHERO/rest-api/controllers"
-	"github.com/UHERO/rest-api/data"
+	"github.com/UHERO/dbedt-rest-api/controllers"
+	"github.com/UHERO/dbedt-rest-api/data"
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
 )
 
-func InitRoutes(cache *data.CacheRepository) *mux.Router {
+func InitRoutes(cache *data.Cache) *mux.Router {
 	router := mux.NewRouter().StrictSlash(false)
 
 	apiRouter := mux.NewRouter().StrictSlash(false)
