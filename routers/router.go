@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"github.com/UHERO/dbedt-rest-api/controllers"
-	"github.com/UHERO/dbedt-rest-api/data"
+	"github.com/UHERO/dvw-api/controllers"
+	"github.com/UHERO/dvw-api/data"
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
 )
@@ -11,7 +11,7 @@ func InitRoutes(cache *data.Cache) *mux.Router {
 	router := mux.NewRouter().StrictSlash(false)
 
 	apiRouter := mux.NewRouter().StrictSlash(false)
-	apiRouter = SetRoutes(apiRouter)
+	apiRouter.SetRoutes()
 	router.PathPrefix("/dvw").Handler(negroni.New(
 		negroni.HandlerFunc(controllers.CORSOptionsHandler),
 		//negroni.HandlerFunc(controllers.ValidApiKey(applicationRepository)),
@@ -19,4 +19,8 @@ func InitRoutes(cache *data.Cache) *mux.Router {
 		negroni.Wrap(apiRouter),
 	))
 	return router
+}
+
+func (r *mux.Router) SetRoutes() {
+	return
 }

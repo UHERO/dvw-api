@@ -2,14 +2,13 @@ package controllers
 
 import (
 	"errors"
-	"github.com/UHERO/rest-api/common"
-	"github.com/UHERO/rest-api/data"
+	"github.com/UHERO/dvw-api/common"
+	"github.com/UHERO/dvw-api/data"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
-)
+
 
 func CheckCache(c *data.Cache) func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {

@@ -3,8 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
-	"github.com/UHERO/rest-api/common"
-	"github.com/UHERO/rest-api/data"
+	"github.com/UHERO/dvw-api/common"
+	"github.com/UHERO/dvw-api/data"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"

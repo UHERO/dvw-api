@@ -3,9 +3,9 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/UHERO/dbedt-rest-api/common"
-	"github.com/UHERO/dbedt-rest-api/data"
-	"github.com/UHERO/dbedt-rest-api/routers"
+	"github.com/UHERO/dvw-api/common"
+	"github.com/UHERO/dvw-api/data"
+	"github.com/UHERO/dvw-api/routers"
 	"github.com/garyburd/redigo/redis"
 	"github.com/go-sql-driver/mysql"
 	"github.com/urfave/negroni"
