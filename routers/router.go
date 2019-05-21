@@ -12,7 +12,7 @@ func InitRoutes(cache *data.Cache) *mux.Router {
 
 	apiRouter := mux.NewRouter().StrictSlash(false)
 	apiRouter = SetRoutes(apiRouter)
-	router.PathPrefix("/v1").Handler(negroni.New(
+	router.PathPrefix("/dvw").Handler(negroni.New(
 		negroni.HandlerFunc(controllers.CORSOptionsHandler),
 		//negroni.HandlerFunc(controllers.ValidApiKey(applicationRepository)),
 		negroni.HandlerFunc(controllers.CheckCache(cache)),
