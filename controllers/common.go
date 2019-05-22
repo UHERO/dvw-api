@@ -9,6 +9,20 @@ import (
 	"net/http"
 	"strconv"
 
+func GetDimensionAll() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+	}
+}
+
+func GetDimensionByHandle() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+	}
+}
+
+func GetDimensionKidsByHandle() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+	}
+}
 
 func CheckCache(c *data.Cache) func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {

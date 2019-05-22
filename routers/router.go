@@ -7,12 +7,14 @@ import (
 	"github.com/urfave/negroni"
 )
 
+const pathPrefix = "/dvw"
+
 func InitRoutes(cache *data.Cache) *mux.Router {
 	router := mux.NewRouter().StrictSlash(false)
 
-	apiRouter := mux.NewRouter().StrictSlash(false)
-	apiRouter.SetRoutes()
-	router.PathPrefix("/dvw").Handler(negroni.New(
+	apiRouter := mux.NewRouter().StrictSlash(false).PathPrefix(pathPrefix).Subrouter()
+	apiRouter = SetRoutes(apiRouter)
+	router.PathPrefix(pathPrefix).Handler(negroni.New(
 		negroni.HandlerFunc(controllers.CORSOptionsHandler),
 		//negroni.HandlerFunc(controllers.ValidApiKey(applicationRepository)),
 		negroni.HandlerFunc(controllers.CheckCache(cache)),
@@ -21,6 +23,9 @@ func InitRoutes(cache *data.Cache) *mux.Router {
 	return router
 }
 
-func (r *mux.Router) SetRoutes() {
-	return
+func SetRoutes(r *mux.Router) *mux.Router {
+	r.HandleFunc("/{dimension:[a-z]+}/all", controllers.GetDimensionAll()).Methods("GET")
+	r.HandleFunc("/{dimension:[a-z]+}/{handle}/children", controllers.GetDimensionKidsByHandle()).Methods("GET")
+	r.HandleFunc("/{dimension:[a-z]+}/{handle}", controllers.GetDimensionByHandle()).Methods("GET")
+	return r
 }
