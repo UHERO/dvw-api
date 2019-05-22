@@ -54,13 +54,3 @@ func (r *Cache) SetCache(key string, value []byte) (err error) {
 	log.Printf("Redis SET: %s", key)
 	return
 }
-
-// SetCachePair sets a pair of cache keys key (w/o expiration) and key:fresh (w/ expiration). Used for caching responses from the census proxy.
-func (r *Cache) SetCachePair(key string, value []byte) (err error) {
-	r.SetCache(key+":fresh", value)
-	r.SetCache(key, value)
-	c := r.Pool.Get()
-	defer c.Close()
-	c.Send("PERSIST", key)
-	return
-}
