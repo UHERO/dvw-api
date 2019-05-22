@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/UHERO/dvw-api/common"
+	"github.com/UHERO/dvw-api/controllers"
 	"github.com/UHERO/dvw-api/data"
 	"github.com/UHERO/dvw-api/routers"
 	"github.com/garyburd/redigo/redis"
@@ -14,10 +15,9 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strconv"
 	"time"
 )
-
-const cacheTTLMin = 10
 
 func main() {
 	common.StartUp()
@@ -92,9 +92,13 @@ func main() {
 			return err
 		},
 	}
+	cacheTTLStr, ok := os.LookupEnv("API_CACHE_TTL")
+	if !ok {
+		cacheTTLStr = "10"
+	}
+	cacheTTLMin, _ := strconv.ParseInt(cacheTTLStr, 10, 64)
 
-	cache := &data.Cache{Pool: pool, TTL: 60 * cacheTTLMin} // TTL in seconds
-
+	cache := controllers.CreateCache(pool, int(cacheTTLMin))
 	router := routers.CreateRouter(cache)
 	n := negroni.Classic()
 	n.UseHandler(router)

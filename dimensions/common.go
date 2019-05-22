@@ -8,3 +8,7 @@ type Dimension interface{
 	Parent() Dimension
 }
 
+type ModuleDimensions struct {
+	Dimensions	[]string  `json:"dimensions"`
+}
+

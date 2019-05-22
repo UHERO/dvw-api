@@ -1,13 +1,15 @@
 package controllers
 
 import (
-	"errors"
-	"github.com/UHERO/dvw-api/common"
 	"github.com/UHERO/dvw-api/data"
+	"github.com/garyburd/redigo/redis"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
+)
+
+var cache *data.Cache
 
 func GetDimensionAll() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -22,6 +24,11 @@ func GetDimensionByHandle() http.HandlerFunc {
 func GetDimensionKidsByHandle() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 	}
+}
+
+func CreateCache(pool *redis.Pool, ttl int) *data.Cache {
+	cache = &data.Cache{Pool: pool, TTL: 60 * ttl} // TTL in seconds
+	return cache
 }
 
 func CheckCache(c *data.Cache) func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
@@ -40,7 +47,10 @@ func CheckCache(c *data.Cache) func(http.ResponseWriter, *http.Request, http.Han
 func WriteResponse(w http.ResponseWriter, payload []byte) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(payload)
+	_, err := w.Write(payload)
+	if err != nil {
+		log.Printf("Response write FAILURE")
+	}
 }
 
 func WriteCache(r *http.Request, c *data.Cache, payload []byte) {
@@ -75,13 +85,5 @@ func getIntParam(r *http.Request, name string) (intval int64, ok bool) {
 
 func getStrParam(r *http.Request, name string) (strval string, ok bool) {
 	strval, ok = mux.Vars(r)[name]
-	return
-}
-
-func getId(w http.ResponseWriter, r *http.Request) (id int64, ok bool) {
-	id, ok = getIntParam(r, "id")
-	if !ok {
-		common.DisplayAppError(w, errors.New("couldn't get integer id from request"),"Bad request.",400)
-	}
 	return
 }
