@@ -9,7 +9,7 @@ import (
 
 const pathPrefix = "/dvw"
 
-func InitRoutes(cache *data.Cache) *mux.Router {
+func CreateRouter(cache *data.Cache) *mux.Router {
 	router := mux.NewRouter().StrictSlash(false)
 
 	apiRouter := mux.NewRouter().StrictSlash(false).PathPrefix(pathPrefix).Subrouter()

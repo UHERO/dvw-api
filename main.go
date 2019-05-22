@@ -17,6 +17,8 @@ import (
 	"time"
 )
 
+const cacheTTLMin = 10
+
 func main() {
 	common.StartUp()
 
@@ -51,35 +53,35 @@ func main() {
 	}
 
 	// Set up Redis
-	var redis_server, authpw string
-	if redis_url, ok := os.LookupEnv("REDIS_URL"); ok {
-		if u, err := url.Parse(redis_url); err == nil {
-			redis_server = u.Host // includes port where specified
-			authpw, _ = u.User.Password()
+	var redisServer, authPw string
+	if redisUrl, ok := os.LookupEnv("REDIS_URL"); ok {
+		if u, err := url.Parse(redisUrl); err == nil {
+			redisServer = u.Host // includes port where specified
+			authPw, _ = u.User.Password()
 		}
 	}
-	if redis_server == "" {
+	if redisServer == "" {
 		log.Print("Valid REDIS_URL var not found; using redis @ localhost:6379")
-		redis_server = "localhost:6379"
+		redisServer = "localhost:6379"
 	}
 	pool := &redis.Pool{
-		MaxIdle:     10,
-		MaxActive:   50,
+		MaxIdle: 10,
+		MaxActive: 50,
 		IdleTimeout: 240 * time.Second,
 		Dial: func() (redis.Conn, error) {
-			c, err := redis.Dial("tcp", redis_server)
+			c, err := redis.Dial("tcp", redisServer)
 			if err != nil {
-				log.Printf("*** Cannot contact redis server at %s. No caching!", redis_server)
+				log.Printf("*** Cannot contact redis server at %s. No caching!", redisServer)
 				return nil, err
 			}
-			if authpw != "" {
-				if _, err = c.Do("AUTH", authpw); err != nil {
+			if authPw != "" {
+				if _, err = c.Do("AUTH", authPw); err != nil {
 					c.Close()
 					log.Print("*** Redis authentication failure. No caching!")
 					return nil, err
 				}
 			}
-			log.Printf("Redis connection to %s established", redis_server)
+			log.Printf("Redis connection to %s established", redisServer)
 			return c, nil
 		},
 		TestOnBorrow: func(c redis.Conn, t time.Time) error {
@@ -91,11 +93,9 @@ func main() {
 		},
 	}
 
-	cache := &data.Cache{Pool: pool, TTL: 60 * 10} //TTL in seconds
+	cache := &data.Cache{Pool: pool, TTL: 60 * cacheTTLMin} // TTL in seconds
 
-	// Get the mux router object
-	router := routers.InitRoutes(cache)
-	// Create a negroni instance
+	router := routers.CreateRouter(cache)
 	n := negroni.Classic()
 	n.UseHandler(router)
 
@@ -109,5 +109,8 @@ func main() {
 		Handler: n,
 	}
 	log.Printf("Listening on %s...", server.Addr)
-	server.ListenAndServe()
+	err = server.ListenAndServe()
+	if err != nil {
+		// OUTPUT ERROR
+	}
 }
