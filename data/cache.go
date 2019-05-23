@@ -44,7 +44,7 @@ func (r *Cache) SetCache(key string, value []byte) (err error) {
 		log.Print("Error on scan of redis response")
 	}
 	if setResponse != "OK" {
-		err = errors.New("Did not get OK from Redis SET")
+		err = errors.New("did not get OK from Redis SET")
 		log.Print(err)
 		return
 	}

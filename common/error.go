@@ -2,6 +2,7 @@ package common
 
 import (
 	"encoding/json"
+	"github.com/UHERO/dvw-api/controllers"
 	"log"
 	"net/http"
 )
@@ -17,24 +18,16 @@ type (
 	}
 )
 
-func DisplayAppError(
-	w http.ResponseWriter,
-	handlerError error,
-	message string,
-	code int,
-) {
+func DisplayAppError(w http.ResponseWriter, handlerError error, message string, code int) {
 	errObj := appError{
 		Error:      handlerError.Error(),
 		Message:    message,
 		HttpStatus: code,
 	}
 	log.Printf("[AppError]: %s\n", handlerError)
-	w.Header().Set("Content-Type", "application/json;charset=utf-8")
-	w.WriteHeader(code)
-	if j, err := json.Marshal(errorResource{Data: errObj}); err == nil {
-		_, err = w.Write(j)
-		if err != nil {
-			// then what?
-		}
+	marsh, err := json.Marshal(errorResource{Data: errObj})
+	if err != nil {
+		log.Printf("DisplayAppError: code=%v, message=%s, json marshal error", code, message)
 	}
+	controllers.WriteErrorResponse(w, code, marsh)
 }

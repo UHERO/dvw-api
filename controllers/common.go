@@ -52,6 +52,15 @@ func WriteResponse(w http.ResponseWriter, payload []byte) {
 	}
 }
 
+func WriteErrorResponse(w http.ResponseWriter, code int, payload []byte) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	_, err := w.Write(payload)
+	if err != nil {
+		log.Printf("Response write FAILURE")
+	}
+}
+
 func WriteCache(r *http.Request, payload []byte) {
 	url := GetFullRelativeURL(r)
 	err := cache.SetCache(url, payload)
