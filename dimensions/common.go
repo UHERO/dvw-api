@@ -7,8 +7,3 @@ type Dimension interface{
 	NameT() string
 	Parent() Dimension
 }
-
-type ModuleDimensions struct {
-	Dimensions	[]string  `json:"dimensions"`
-}
-

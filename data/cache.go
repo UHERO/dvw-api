@@ -7,6 +7,7 @@ import (
 )
 
 type Cache struct {
+	Prefix string
 	Pool *redis.Pool
 	TTL  int
 }

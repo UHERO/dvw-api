@@ -26,8 +26,8 @@ func GetDimensionKidsByHandle() http.HandlerFunc {
 	}
 }
 
-func CreateCache(pool *redis.Pool, ttl int) {
-	cache = &data.Cache{Pool: pool, TTL: 60 * ttl} // TTL is in seconds
+func CreateCache(prefix string, pool *redis.Pool, ttl int) {
+	cache = &data.Cache{Prefix: prefix, Pool: pool, TTL: 60 * ttl} // TTL is in seconds
 }
 
 func CheckCache() func(http.ResponseWriter, *http.Request, http.HandlerFunc) {

@@ -6,14 +6,12 @@ import (
 	"github.com/urfave/negroni"
 )
 
-const pathPrefix = "/dvw"
-
-func CreateRouter() *mux.Router {
+func CreateRouter(prefix string) *mux.Router {
 	router := mux.NewRouter().StrictSlash(false)
 
-	apiRouter := mux.NewRouter().StrictSlash(false).PathPrefix(pathPrefix).Subrouter()
+	apiRouter := mux.NewRouter().StrictSlash(false).PathPrefix("/" + prefix).Subrouter()
 	apiRouter = SetRoutes(apiRouter)
-	router.PathPrefix(pathPrefix).Handler(negroni.New(
+	router.PathPrefix("/" + prefix).Handler(negroni.New(
 		negroni.HandlerFunc(controllers.CORSOptionsHandler),
 		//negroni.HandlerFunc(controllers.ValidApiKey(applicationRepository)),
 		negroni.HandlerFunc(controllers.CheckCache()),

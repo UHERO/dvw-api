@@ -3,9 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/UHERO/dvw-api/common"
 	"github.com/UHERO/dvw-api/controllers"
-	"github.com/UHERO/dvw-api/data"
 	"github.com/UHERO/dvw-api/routers"
 	"github.com/garyburd/redigo/redis"
 	"github.com/go-sql-driver/mysql"
@@ -19,8 +17,10 @@ import (
 	"time"
 )
 
+const ApiName = "dvw"
+
 func main() {
-	common.StartUp()
+	//common.StartUp()  ///// THIS IS FOR API AUTH FOR EXTERNAL USERS?
 
 	// Set up MySQL
 	dbPort, ok := os.LookupEnv("DB_PORT")
@@ -98,8 +98,8 @@ func main() {
 	}
 	cacheTTLMin, _ := strconv.ParseInt(cacheTTLStr, 10, 64)
 
-	controllers.CreateCache(pool, int(cacheTTLMin))
-	router := routers.CreateRouter()
+	controllers.CreateCache(ApiName, pool, int(cacheTTLMin))
+	router := routers.CreateRouter(ApiName)
 	n := negroni.Classic()
 	n.UseHandler(router)
 
