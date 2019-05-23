@@ -15,6 +15,9 @@ type Cache struct {
 func (r *Cache) GetCache(key string) ([]byte, error) {
 	c := r.Pool.Get()
 	defer c.Close()
+	if r.Prefix != "" {
+		key = r.Prefix + "_" + key
+	}
 	value, err := c.Do("GET", key)
 	if err != nil {
 		log.Printf("Redis error on GET: %v", err)
@@ -31,6 +34,9 @@ func (r *Cache) GetCache(key string) ([]byte, error) {
 func (r *Cache) SetCache(key string, value []byte) (err error) {
 	c := r.Pool.Get()
 	defer c.Close()
+	if r.Prefix != "" {
+		key = r.Prefix + "_" + key
+	}
 	c.Send("MULTI")
 	c.Send("SET", key, value)
 	c.Send("EXPIRE", key, r.TTL)
