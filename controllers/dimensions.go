@@ -1,6 +1,10 @@
 package controllers
 
-import "net/http"
+import (
+	"encoding/json"
+	"github.com/UHERO/dvw-api/common"
+	"net/http"
+)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 func GetModuleDimensions() http.HandlerFunc {
@@ -9,7 +13,12 @@ func GetModuleDimensions() http.HandlerFunc {
 		if !ok {
 			// do something
 		}
+		j, err := json.Marshal(module)
+		if err != nil {
+			common.DisplayAppError(w, err, "An unexpected error processing JSON has occurred", 500)
+			return
+		}
 		WriteResponse(w, j)
-		WriteCache(r, cacheRepository, j)
+		WriteCache(r, j)
 	}
 }

@@ -26,15 +26,14 @@ func GetDimensionKidsByHandle() http.HandlerFunc {
 	}
 }
 
-func CreateCache(pool *redis.Pool, ttl int) *data.Cache {
-	cache = &data.Cache{Pool: pool, TTL: 60 * ttl} // TTL in seconds
-	return cache
+func CreateCache(pool *redis.Pool, ttl int) {
+	cache = &data.Cache{Pool: pool, TTL: 60 * ttl} // TTL is in seconds
 }
 
-func CheckCache(c *data.Cache) func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
+func CheckCache() func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 		url := GetFullRelativeURL(r)
-		cachedVal, _ := c.GetCache(url)
+		cachedVal, _ := cache.GetCache(url)
 		if cachedVal != nil {
 			WriteResponse(w, cachedVal)
 			return
@@ -53,9 +52,9 @@ func WriteResponse(w http.ResponseWriter, payload []byte) {
 	}
 }
 
-func WriteCache(r *http.Request, c *data.Cache, payload []byte) {
+func WriteCache(r *http.Request, payload []byte) {
 	url := GetFullRelativeURL(r)
-	err := c.SetCache(url, payload)
+	err := cache.SetCache(url, payload)
 	if err != nil {
 		log.Printf("Cache store FAILURE: %s", url)
 		return
@@ -70,14 +69,16 @@ func GetFullRelativeURL(r *http.Request) string {
 	return path + "?" + r.URL.RawQuery
 }
 
-func getIntParam(r *http.Request, name string) (intval int64, ok bool) {
+func getIntParam(r *http.Request, name string) (intval int, ok bool) {
 	ok = true
 	param, ok := mux.Vars(r)[name]
 	if !ok {
 		return
 	}
-	intval, err := strconv.ParseInt(param, 10, 64)
-	if err != nil {
+	int64val, err := strconv.ParseInt(param, 10, 64)
+	if err == nil {
+		intval = int(int64val)
+	} else {
 		ok = false
 	}
 	return

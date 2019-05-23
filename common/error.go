@@ -28,10 +28,13 @@ func DisplayAppError(
 		Message:    message,
 		HttpStatus: code,
 	}
-	log.Printf("AppError]: %s\n", handlerError)
+	log.Printf("[AppError]: %s\n", handlerError)
 	w.Header().Set("Content-Type", "application/json;charset=utf-8")
 	w.WriteHeader(code)
 	if j, err := json.Marshal(errorResource{Data: errObj}); err == nil {
-		w.Write(j)
+		_, err = w.Write(j)
+		if err != nil {
+			// then what?
+		}
 	}
 }

@@ -98,13 +98,13 @@ func main() {
 	}
 	cacheTTLMin, _ := strconv.ParseInt(cacheTTLStr, 10, 64)
 
-	cache := controllers.CreateCache(pool, int(cacheTTLMin))
-	router := routers.CreateRouter(cache)
+	controllers.CreateCache(pool, int(cacheTTLMin))
+	router := routers.CreateRouter()
 	n := negroni.Classic()
 	n.UseHandler(router)
 
-	port := os.Getenv("GO_REST_PORT")
-	if port == "" {
+	port, ok := os.LookupEnv("GO_REST_PORT")
+	if !ok {
 		port = "8080"
 	}
 
