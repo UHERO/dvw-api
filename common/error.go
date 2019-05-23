@@ -18,7 +18,7 @@ type (
 	}
 )
 
-func DisplayAppError(w http.ResponseWriter, handlerError error, message string, code int) {
+func ReturnAppError(w http.ResponseWriter, handlerError error, message string, code int) {
 	errObj := appError{
 		Error:      handlerError.Error(),
 		Message:    message,
@@ -27,7 +27,7 @@ func DisplayAppError(w http.ResponseWriter, handlerError error, message string, 
 	log.Printf("[AppError]: %s\n", handlerError)
 	marsh, err := json.Marshal(errorResource{Data: errObj})
 	if err != nil {
-		log.Printf("DisplayAppError: code=%v, message=%s, json marshal error", code, message)
+		log.Printf("ReturnAppError: code=%v, message=%s, json marshal error", code, message)
 	}
 	controllers.WriteErrorResponse(w, code, marsh)
 }

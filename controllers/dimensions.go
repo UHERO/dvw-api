@@ -16,7 +16,7 @@ func GetModuleDimensions() http.HandlerFunc {
 		}
 		marsh, err := json.Marshal(ModDimResource{Data: data.ModDimList[module]})
 		if err != nil {
-			common.DisplayAppError(w, err, "unexpected JSON processing error", 500)
+			common.ReturnAppError(w, err, "unexpected JSON processing error", 500)
 			return
 		}
 		WriteResponse(w, marsh)
