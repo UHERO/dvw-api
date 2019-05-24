@@ -12,7 +12,7 @@ func GetDimensionAll(dim string, mod string) (dimList []Dimension, err error) {
 	var query = fmt.Sprintf(
 	 	 `select t.module, t.handle, t.nameP, t.nameW, t.nameT, t.header, p.handle as parent, t.level, t.order %s
           from %s t left join %s p on p.id = t.parent_id
-          where t.module = ?`, xtraCols, dim, dim)
+          where t.module = ? `, xtraCols, dim, dim)
 	results, err := Db.Query(query, mod)
 	if err != nil {
 		return
