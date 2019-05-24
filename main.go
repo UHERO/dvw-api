@@ -1,9 +1,9 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/UHERO/dvw-api/controllers"
+	"github.com/UHERO/dvw-api/data"
 	"github.com/UHERO/dvw-api/routers"
 	"github.com/garyburd/redigo/redis"
 	"github.com/go-sql-driver/mysql"
@@ -41,16 +41,11 @@ func main() {
 		DBName:    dbName,
 	}
 	connectionString := mysqlConfig.FormatDSN()
-	db, err := sql.Open("mysql", connectionString)
+	db, err := data.CreateDatabase(connectionString)
 	if err != nil {
-		panic(err)
+		log.Fatal("Cannot reach MySQL server - check all DB_* environment variables")
 	}
 	defer db.Close()
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatal("Cannot login to MySQL server - check all DB_* environment variables")
-	}
 
 	// Set up Redis
 	var redisServer, authPw string

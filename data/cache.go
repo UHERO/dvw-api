@@ -12,10 +12,12 @@ type Cache struct {
 	TTL  int
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func CreateCache(prefix string, pool *redis.Pool, ttlMin int) *Cache {
 	return &Cache{Prefix: prefix, Pool: pool, TTL: 60 * ttlMin} // actual TTL is in seconds
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func (r *Cache) GetCache(key string) ([]byte, error) {
 	c := r.Pool.Get()
 	defer c.Close()
@@ -35,6 +37,7 @@ func (r *Cache) GetCache(key string) ([]byte, error) {
 	return value.([]byte), err
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func (r *Cache) SetCache(key string, value []byte) (err error) {
 	c := r.Pool.Get()
 	defer c.Close()

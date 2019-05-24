@@ -6,6 +6,7 @@ import (
 	"github.com/urfave/negroni"
 )
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func CreateRouter(apiName string) *mux.Router {
 	router := mux.NewRouter().StrictSlash(false)
 	prefix := "/" + apiName
@@ -21,6 +22,7 @@ func CreateRouter(apiName string) *mux.Router {
 	return router
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func SetRoutes(r *mux.Router) {
 	r.HandleFunc("/dimensions/{module:[a-z]+}",                     controllers.GetModuleDimensions()).Methods("GET")
 	r.HandleFunc("/{dimension:[a-z]+}/all/{module:[a-z]+}",         controllers.GetDimensionAll()).Methods("GET")

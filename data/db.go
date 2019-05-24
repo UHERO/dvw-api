@@ -1,7 +1,19 @@
 package data
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
-type Database struct {
-	DB *sql.DB
+var Db *sql.DB
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+func CreateDatabase(connString string) (newDb *sql.DB, err error) {
+	if newDb, err = sql.Open("mysql", connString); err != nil {
+		return
+	}
+	if err = newDb.Ping(); err != nil {
+		return
+	}
+	Db = newDb
+	return
 }

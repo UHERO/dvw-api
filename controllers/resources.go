@@ -6,10 +6,10 @@ type ModDimResource struct {
 	Data []string `json:"data"`
 }
 
-type DimensionAllResource struct {
+type DimensionResource struct {
 	Data data.Dimension `json:"data"`
 }
 
-type DimensionResource struct {
+type DimensionListResource struct {
 	Data data.Dimension `json:"data"`
 }
