@@ -1,8 +1,6 @@
 package data
 
-import (
-	"database/sql"
-)
+import "database/sql"
 
 var Db *sql.DB
 

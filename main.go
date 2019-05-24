@@ -71,7 +71,7 @@ func main() {
 			}
 			if authPw != "" {
 				if _, err = c.Do("AUTH", authPw); err != nil {
-					c.Close()
+					_ = c.Close()
 					log.Print("*** Redis authentication failure. No caching!")
 					return nil, err
 				}
