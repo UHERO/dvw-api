@@ -27,7 +27,10 @@ func GetDimensionAll() http.HandlerFunc {
 		if !ok {
 			// do something.. maybe have getStrParam return an error and do as below
 		}
-		all := data.GetDimensionAll(dim, mod)
+		all, err := data.GetDimensionAll(dim, mod)
+		if err != nil {
+			// do something
+		}
 		SendResponseData(w, r, DimensionListResource{Data: all})
 	}
 }

@@ -22,4 +22,6 @@ type Dimension struct {
 	Parent    sql.NullString `json:"parent,omitempty"`
 	Level	  int			 `json:"level"`
 	Order     int			 `json:"order"`
+	Unit      sql.NullString `json:"unit,omitempty"`
+	Decimal   sql.NullString `json:"decimal,omitempty"`
 }
