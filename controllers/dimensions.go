@@ -12,14 +12,34 @@ func GetModuleDimensions() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		module, ok := getStrParam(r, "module")
 		if !ok {
-			// do something
+			// do something.. maybe have getStrParam return an error and do as below
 		}
-		marsh, err := json.Marshal(ModDimResource{Data: data.ModDimList[module]})
-		if err != nil {
-			common.ReturnAppError(w, err, "unexpected JSON processing error", 500)
-			return
+		SendResponseData(w, r, ModDimResource{Data: data.ModDimList[module]})
+	}
+}
+
+func GetDimensionAll() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		dim, ok := getStrParam(r, "dimension")
+		if !ok {
+			// do something.. maybe have getStrParam return an error and do as below
 		}
-		WriteResponse(w, marsh)
-		WriteCache(r, marsh)
+		mod, ok := getStrParam(r, "module")
+		if !ok {
+			// do something.. maybe have getStrParam return an error and do as below
+		}
+		SendResponseData(w, r, DimensionAllResource{Data: nil})
+	}
+}
+
+func GetDimensionByHandle() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		SendResponseData(w, r, DimensionResource{Data: nil})
+	}
+}
+
+func GetDimensionKidsByHandle() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		SendResponseData(w, r, DimensionResource{Data: nil})
 	}
 }

@@ -7,3 +7,7 @@ var ModDimList = map[string][]string{
 	"char": {"group", "indicator"},
 	"exp": {"group", "category", "indicator"},
 }
+
+type Dimension struct {
+	string
+}

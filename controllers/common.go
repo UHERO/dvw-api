@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"encoding/json"
+	"github.com/UHERO/dvw-api/common"
 	"github.com/UHERO/dvw-api/data"
 	"github.com/garyburd/redigo/redis"
 	"github.com/gorilla/mux"
@@ -11,36 +13,14 @@ import (
 
 var cache *data.Cache
 
-func GetDimensionAll() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-	}
-}
-
-func GetDimensionByHandle() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-	}
-}
-
-func GetDimensionKidsByHandle() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-	}
-}
-
-func CreateCache(prefix string, pool *redis.Pool, ttlMin int) {
-	cache = data.CreateCache(prefix, pool, ttlMin)
-}
-
-func CheckCache() func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
-	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-		url := GetFullRelativeURL(r)
-		cachedVal, _ := cache.GetCache(url)
-		if cachedVal != nil {
-			WriteResponse(w, cachedVal)
-			return
-		}
-		next(w, r)
+func SendResponseData(w http.ResponseWriter, r *http.Request, data interface{}) {
+	marsh, err := json.Marshal(data)
+	if err != nil {
+		common.ReturnAppError(w, err, "unexpected JSON processing error", 500)
 		return
 	}
+	WriteResponse(w, marsh)
+	WriteCache(r, marsh)
 }
 
 func WriteResponse(w http.ResponseWriter, payload []byte) {
@@ -58,6 +38,23 @@ func WriteErrorResponse(w http.ResponseWriter, code int, payload []byte) {
 	_, err := w.Write(payload)
 	if err != nil {
 		log.Printf("Response write FAILURE")
+	}
+}
+
+func CreateCache(prefix string, pool *redis.Pool, ttlMin int) {
+	cache = data.CreateCache(prefix, pool, ttlMin)
+}
+
+func CheckCache() func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
+	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		url := GetFullRelativeURL(r)
+		cachedVal, _ := cache.GetCache(url)
+		if cachedVal != nil {
+			WriteResponse(w, cachedVal)
+			return
+		}
+		next(w, r)
+		return
 	}
 }
 
