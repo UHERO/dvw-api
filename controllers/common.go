@@ -82,10 +82,12 @@ func getIntParam(r *http.Request, name string) (intval int, ok bool) {
 	ok = true
 	param, ok := getStrParam(r, name)
 	if !ok {
+		// create an error, or log something... do something
 		return
 	}
 	intval, err := strconv.Atoi(param)
 	if err != nil {
+		// do something with this error
 		ok = false
 	}
 	return
@@ -93,6 +95,7 @@ func getIntParam(r *http.Request, name string) (intval int, ok bool) {
 
 func getStrParam(r *http.Request, name string) (strval string, ok bool) {
 	strval, ok = mux.Vars(r)[name]
+	// maybe create a new error and return that instead of boolean?
 	return
 }
 
