@@ -80,14 +80,12 @@ func GetFullRelativeURL(r *http.Request) string {
 
 func getIntParam(r *http.Request, name string) (intval int, ok bool) {
 	ok = true
-	param, ok := mux.Vars(r)[name]
+	param, ok := getStrParam(r, name)
 	if !ok {
 		return
 	}
-	int64val, err := strconv.ParseInt(param, 10, 64)
-	if err == nil {
-		intval = int(int64val)
-	} else {
+	intval, err := strconv.Atoi(param)
+	if err != nil {
 		ok = false
 	}
 	return
@@ -105,9 +103,11 @@ func CORSOptionsHandler(w http.ResponseWriter, r *http.Request, next http.Handle
 		w.Header().Add("Access-Control-Allow-Methods", "GET, POST")
 		w.Header().Add("Access-Control-Allow-Headers", "authorization")
 		w.WriteHeader(http.StatusOK)
-		w.Write(nil)
+		_, err := w.Write(nil)
+		if err != nil {
+			log.Printf("CORSOptionsHandler: write failure")
+		}
 		return
 	}
 	next(w, r)
 }
-
