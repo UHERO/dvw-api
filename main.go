@@ -96,9 +96,9 @@ func main() {
 	if !ok {
 		cacheTTLStr = "10"
 	}
-	cacheTTLMin, _ := strconv.ParseInt(cacheTTLStr, 10, 64)
+	cacheTTLMin, _ := strconv.Atoi(cacheTTLStr)
 
-	controllers.CreateCache(apiName, pool, int(cacheTTLMin))
+	controllers.CreateCache(apiName, pool, cacheTTLMin)
 	router := routers.CreateRouter(apiName)
 	n := negroni.Classic()
 	n.UseHandler(router)
