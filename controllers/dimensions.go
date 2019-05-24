@@ -38,13 +38,13 @@ func GetDimensionAll() http.HandlerFunc {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 func GetDimensionByHandle() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		SendResponseData(w, r, DimensionResource{Data: nil})
+		SendResponseData(w, r, DimensionResource{Data: data.Dimension{}})
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 func GetDimensionKidsByHandle() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		SendResponseData(w, r, DimensionListResource{Data: nil})
+		SendResponseData(w, r, DimensionListResource{Data: []data.Dimension{}})
 	}
 }
