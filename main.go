@@ -14,6 +14,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -23,12 +24,12 @@ func main() {
 	//common.StartUp()  ///// THIS IS FOR API AUTH FOR EXTERNAL USERS?
 
 	// Set up MySQL
-	dbPort, ok := os.LookupEnv("DB_PORT")
-	if !ok {
+	dbPort := strings.TrimSpace(os.Getenv("DB_PORT"))
+	if dbPort == "" {
 		dbPort = "3306"
 	}
-	dbName, ok := os.LookupEnv("DB_DBNAME")
-	if !ok {
+	dbName := strings.TrimSpace(os.Getenv("DB_DBNAME"))
+	if dbName == "" {
 		dbName = "dbedt_visitor_dw"
 	}
 	mysqlConfig := mysql.Config{
@@ -43,13 +44,13 @@ func main() {
 	connectionString := mysqlConfig.FormatDSN()
 	db, err := data.CreateDatabase(connectionString)
 	if err != nil {
-		log.Fatal("Cannot reach MySQL server - check all DB_* environment variables")
+		log.Fatal("Cannot reach MySQL server (check DB_* env vars): " + err.Error())
 	}
 	defer db.Close()
 
 	// Set up Redis
 	var redisServer, authPw string
-	if redisUrl, ok := os.LookupEnv("REDIS_URL"); ok {
+	if redisUrl := strings.TrimSpace(os.Getenv("REDIS_URL")); redisUrl != "" {
 		if u, err := url.Parse(redisUrl); err == nil {
 			redisServer = u.Host // includes port where specified
 			authPw, _ = u.User.Password()
@@ -87,8 +88,8 @@ func main() {
 			return err
 		},
 	}
-	cacheTTLStr, ok := os.LookupEnv("API_CACHE_TTL")
-	if !ok {
+	cacheTTLStr := strings.TrimSpace(os.Getenv("API_CACHE_TTL"))
+	if cacheTTLStr == "" {
 		cacheTTLStr = "10"
 	}
 	cacheTTLMin, _ := strconv.Atoi(cacheTTLStr)
@@ -98,8 +99,8 @@ func main() {
 	n := negroni.Classic()
 	n.UseHandler(router)
 
-	port, ok := os.LookupEnv("GO_REST_PORT")
-	if !ok {
+	port := strings.TrimSpace(os.Getenv("GO_REST_PORT"))
+	if port == "" {
 		port = "8080"
 	}
 	server := &http.Server{
