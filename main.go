@@ -102,11 +102,11 @@ func main() {
 	if !ok {
 		port = "8080"
 	}
-
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%s", port),
 		Handler: n,
 	}
+
 	log.Printf("Listening on %s...", server.Addr)
 	err = server.ListenAndServe()
 	if err != nil {
