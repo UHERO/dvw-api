@@ -97,3 +97,17 @@ func getStrParam(r *http.Request, name string) (strval string, ok bool) {
 	strval, ok = mux.Vars(r)[name]
 	return
 }
+
+func CORSOptionsHandler(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	if r.Method == http.MethodOptions {
+		w.Header().Add("Access-Control-Allow-Origin", "*")
+		w.Header().Add("Access-Control-Allow-Credentials", "true")
+		w.Header().Add("Access-Control-Allow-Methods", "GET, POST")
+		w.Header().Add("Access-Control-Allow-Headers", "authorization")
+		w.WriteHeader(http.StatusOK)
+		w.Write(nil)
+		return
+	}
+	next(w, r)
+}
+

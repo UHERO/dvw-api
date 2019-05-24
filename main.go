@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-const ApiName = "dvw"
+const apiName = "dvw"
 
 func main() {
 	//common.StartUp()  ///// THIS IS FOR API AUTH FOR EXTERNAL USERS?
@@ -98,8 +98,8 @@ func main() {
 	}
 	cacheTTLMin, _ := strconv.ParseInt(cacheTTLStr, 10, 64)
 
-	controllers.CreateCache(ApiName, pool, int(cacheTTLMin))
-	router := routers.CreateRouter(ApiName)
+	controllers.CreateCache(apiName, pool, int(cacheTTLMin))
+	router := routers.CreateRouter(apiName)
 	n := negroni.Classic()
 	n.UseHandler(router)
 
