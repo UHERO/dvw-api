@@ -2,7 +2,7 @@ package controllers
 
 import "github.com/UHERO/dvw-api/data"
 
-type ModDimResource struct {
+type ModuleDimResource struct {
 	Data []string `json:"data"`
 }
 
@@ -11,5 +11,5 @@ type DimensionResource struct {
 }
 
 type DimensionListResource struct {
-	Data data.Dimension `json:"data"`
+	Data []data.Dimension `json:"data"`
 }
