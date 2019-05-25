@@ -45,7 +45,7 @@ func GetDimensionAll(dim string, mod string) (dimList []PortalDimension, err err
 			pDim.Unit = scanDim.Unit.String
 		}
 		if scanDim.Decimal.Valid {
-			pDim.Decimal = scanDim.Decimal.String
+			pDim.Decimal = int(scanDim.Decimal.Int64)
 		}
 		dimList = append(dimList, pDim)
 	}
