@@ -45,7 +45,7 @@ func main() {
 	connectionString := mysqlConfig.FormatDSN()
 	db, err := data.CreateDatabase(connectionString)
 	if err != nil {
-		log.Fatal("Cannot reach MySQL server (check DB_* env vars): " + connectionString + " : " + err.Error())
+		log.Fatal("Cannot reach MySQL server (" + err.Error() + "); check DB_* environment vars")
 	}
 	defer db.Close()
 
