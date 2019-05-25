@@ -6,12 +6,13 @@ var Db *sql.DB
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 func CreateDatabase(connString string) (newDb *sql.DB, err error) {
-	if newDb, err = sql.Open("mysql", connString); err != nil {
+	newDb, err = sql.Open("mysql", connString)
+	if err != nil {
 		return
 	}
-	if err = newDb.Ping(); err != nil {
+	/* if err = newDb.Ping(); err != nil {
 		return
-	}
+	} */
 	Db = newDb
 	return
 }
