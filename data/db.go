@@ -10,9 +10,10 @@ func CreateDatabase(connString string) (newDb *sql.DB, err error) {
 	if err != nil {
 		return
 	}
-	/* if err = newDb.Ping(); err != nil {
+	err = newDb.Ping()
+	if err != nil {
 		return
-	} */
+	}
 	Db = newDb
 	return
 }
