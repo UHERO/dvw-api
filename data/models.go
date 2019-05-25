@@ -23,7 +23,7 @@ type Dimension struct {
 	Level	  int
 	Order     int
 	Unit      sql.NullString
-	Decimal   sql.NullInt64
+	Decimal   sql.NullString
 }
 
 type PortalDimension struct {
@@ -37,5 +37,5 @@ type PortalDimension struct {
 	Level	  int		`json:"level"`
 	Order     int		`json:"order"`
 	Unit      string	`json:"unit,omitempty"`
-	Decimal   int		`json:"decimal,omitempty"`
+	Decimal   string	`json:"decimal,omitempty"`
 }
