@@ -13,15 +13,29 @@ var ModDimList = map[string][]string{
 }
 
 type Dimension struct {
-	Module    string         `json:"module"`
-	Handle    string         `json:"handle"`
-	NameP     sql.NullString `json:"nameP,omitempty"`
-	NameW     string 		 `json:"nameW"`
-	NameT     sql.NullString `json:"nameT,omitempty"`
-	Header    bool			 `json:"header,omitempty"`
-	Parent    sql.NullString `json:"parent,omitempty"`
-	Level	  int			 `json:"level"`
-	Order     int			 `json:"order"`
-	Unit      sql.NullString `json:"unit,omitempty"`
-	Decimal   sql.NullString `json:"decimal,omitempty"`
+	Module    string
+	Handle    string
+	NameP     sql.NullString
+	NameW     string
+	NameT     sql.NullString
+	Header    bool
+	Parent    sql.NullString
+	Level	  int
+	Order     int
+	Unit      sql.NullString
+	Decimal   sql.NullString
+}
+
+type PortalDimension struct {
+	Module    string	`json:"module"`
+	Handle    string	`json:"handle"`
+	NameP     string	`json:"nameP,omitempty"`
+	NameW     string	`json:"nameW"`
+	NameT     string	`json:"nameT,omitempty"`
+	Header    bool		`json:"header,omitempty"`
+	Parent    string	`json:"parent,omitempty"`
+	Level	  int		`json:"level"`
+	Order     int		`json:"order"`
+	Unit      string	`json:"unit,omitempty"`
+	Decimal   string	`json:"decimal,omitempty"`
 }

@@ -7,9 +7,9 @@ type ModuleDimResource struct {
 }
 
 type DimensionResource struct {
-	Data data.Dimension `json:"data"`
+	Data data.PortalDimension `json:"data"`
 }
 
 type DimensionListResource struct {
-	Data []data.Dimension `json:"data"`
+	Data []data.PortalDimension `json:"data"`
 }

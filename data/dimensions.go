@@ -3,7 +3,7 @@ package data
 import "fmt"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetDimensionAll(dim string, mod string) (dimList []Dimension, err error) {
+func GetDimensionAll(dim string, mod string) (dimList []PortalDimension, err error) {
 	xtraCols := ", null, null"  // No unit or decimals for all tables other than indicators
 	if dim == "indicators" {
 		xtraCols = ", t.unit, t.decimal"
@@ -24,7 +24,30 @@ func GetDimensionAll(dim string, mod string) (dimList []Dimension, err error) {
 		if err != nil {
 			return
 		}
-		dimList = append(dimList, scanDim)
+		pDim := PortalDimension{
+			Module: scanDim.Module,
+			Handle: scanDim.Handle,
+			NameW: scanDim.NameW,
+			Header: scanDim.Header,
+			Level: scanDim.Level,
+			Order: scanDim.Order,
+		}
+		if scanDim.NameP.Valid {
+			pDim.NameP = scanDim.NameP.String
+		}
+		if scanDim.NameT.Valid {
+			pDim.NameT = scanDim.NameT.String
+		}
+		if scanDim.Parent.Valid {
+			pDim.Parent = scanDim.Parent.String
+		}
+		if scanDim.Unit.Valid {
+			pDim.Unit = scanDim.Unit.String
+		}
+		if scanDim.Decimal.Valid {
+			pDim.Decimal = scanDim.Decimal.String
+		}
+		dimList = append(dimList, pDim)
 	}
 	return
 }
