@@ -19,7 +19,7 @@ CREATE TABLE `indicators` (
     `unit`   VARCHAR(32),
     `decimal` SMALLINT,
     INDEX module_idx (module),
-    INDEX handle_idx (handle)
+    UNIQUE KEY handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `groups`;
@@ -36,7 +36,7 @@ CREATE TABLE `groups` (
     `level`  SMALLINT,
     `order`  SMALLINT,
     INDEX module_idx (module),
-    INDEX handle_idx (handle)
+    UNIQUE KEY handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `markets`;
@@ -53,7 +53,7 @@ CREATE TABLE `markets` (
     `level`  SMALLINT,
     `order`  SMALLINT,
     INDEX module_idx (module),
-    INDEX handle_idx (handle)
+    UNIQUE KEY handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `destinations`;
@@ -70,7 +70,7 @@ CREATE TABLE `destinations` (
     `level`  SMALLINT,
     `order`  SMALLINT,
     INDEX module_idx (module),
-    INDEX handle_idx (handle)
+    UNIQUE KEY handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `categories`;
@@ -87,7 +87,7 @@ CREATE TABLE `categories` (
     `level`  SMALLINT,
     `order`  SMALLINT,
     INDEX module_idx (module),
-    INDEX handle_idx (handle)
+    UNIQUE KEY handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `data_points` (
@@ -109,9 +109,7 @@ CREATE TABLE `data_points` (
     INDEX category_fk_idx (category_id),
       FOREIGN KEY (category_id) REFERENCES categories(id),
     INDEX indicator_fk_idx (indicator_id),
-      FOREIGN KEY (indicator_id) REFERENCES indicators(id)
-    UNIQUE INDEX unique_dims_idx (
-        module, group_id, market_id, destination_id, category_id, indicator_id
-    )
+      FOREIGN KEY (indicator_id) REFERENCES indicators(id),
+    UNIQUE KEY unique_dims_idx (module, group_id, market_id, destination_id, category_id, indicator_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
