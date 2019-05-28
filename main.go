@@ -100,7 +100,7 @@ func main() {
 	n := negroni.Classic()
 	n.UseHandler(router)
 
-	port := strings.TrimSpace(os.Getenv("GO_REST_PORT"))
+	port := strings.TrimSpace(os.Getenv("API_REST_PORT"))
 	if port == "" {
 		port = "8080"
 	}
