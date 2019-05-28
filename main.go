@@ -51,7 +51,7 @@ func main() {
 
 	// Set up Redis
 	var redisServer, authPw string
-	if redisUrl := strings.TrimSpace(os.Getenv("REDIS_URL")); redisUrl != "" {
+	if redisUrl := strings.TrimSpace(os.Getenv("REDIS_API_URL")); redisUrl != "" {
 		if u, err := url.Parse(redisUrl); err == nil {
 			redisServer = u.Host // includes port where specified
 			authPw, _ = u.User.Password()
