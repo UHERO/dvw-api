@@ -112,6 +112,6 @@ func main() {
 	log.Printf("Listening on %s...", server.Addr)
 	err = server.ListenAndServe()
 	if err != nil {
-		// OUTPUT ERROR
+		log.Fatal(err.Error())
 	}
 }
