@@ -28,7 +28,7 @@ func GetDimensionAll() http.HandlerFunc {
 		if !ok {
 			// do something.. maybe have getStrParam return an error and do as below
 		}
-		all, err := data.GetDimensionAll(dim, mod)
+		all, err := data.GetDimensionAll(strings.ToLower(dim), mod)
 		if err != nil {
 			// do something
 		}

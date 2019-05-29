@@ -1,6 +1,9 @@
 package data
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 func GetDimensionAll(dim string, mod string) (dimList []PortalDimension, err error) {
@@ -15,6 +18,7 @@ func GetDimensionAll(dim string, mod string) (dimList []PortalDimension, err err
           where t.module = ? `, xtraCols, dim, dim)
 	results, err := Db.Query(query, mod)
 	if err != nil {
+		log.Printf("Database error: %s", err.Error())
 		return
 	}
 	for results.Next() {
