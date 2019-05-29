@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/UHERO/dvw-api/data"
 	"net/http"
+	"strings"
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,7 +13,7 @@ func GetModuleDimensions() http.HandlerFunc {
 		if !ok {
 			// do something.. maybe have getStrParam return an error and do as below
 		}
-		SendResponseData(w, r, ModuleDimResource{Data: data.ModDimList[module]})
+		SendResponseData(w, r, ModuleDimResource{Data: data.ModDimList[strings.ToLower(module)]})
 	}
 }
 
