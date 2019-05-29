@@ -13,8 +13,16 @@ type Cache struct {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func CreateCache(prefix string, pool *redis.Pool, ttlMin int) *Cache {
-	return &Cache{Prefix: prefix, Pool: pool, TTL: 60 * ttlMin} // actual TTL is in seconds
+func CreateCache(prefix string, pool *redis.Pool, ttlMin int) (r *Cache) {
+	r = &Cache{Prefix: prefix, Pool: pool, TTL: 60 * ttlMin} // actual TTL is in seconds
+	c := r.Pool.Get()
+	defer c.Close()
+	_, err := c.Do("PING")
+	if err != nil {
+		log.Printf("**** Cannot contact Redis server (%v). No caching!", err.Error())
+		return nil
+	}
+	return
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

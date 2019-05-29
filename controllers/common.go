@@ -46,11 +46,13 @@ func CreateCache(prefix string, pool *redis.Pool, ttlMin int) {
 
 func CheckCache() func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-		url := GetFullRelativeURL(r)
-		cachedVal, _ := cache.GetCache(url)
-		if cachedVal != nil {
-			WriteResponse(w, cachedVal)
-			return
+		if cache != nil {
+			url := GetFullRelativeURL(r)
+			cachedVal, _ := cache.GetCache(url)
+			if cachedVal != nil {
+				WriteResponse(w, cachedVal)
+				return
+			}
 		}
 		next(w, r)
 		return
@@ -58,6 +60,9 @@ func CheckCache() func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
 }
 
 func WriteCache(r *http.Request, payload []byte) {
+	if cache == nil {
+		return
+	}
 	url := GetFullRelativeURL(r)
 	err := cache.SetCache(url, payload)
 	if err != nil {
