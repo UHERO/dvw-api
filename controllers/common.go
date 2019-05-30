@@ -107,12 +107,14 @@ func CORSOptionsHandler(w http.ResponseWriter, r *http.Request, next http.Handle
 		w.Header().Add("Access-Control-Allow-Credentials", "true")
 		w.Header().Add("Access-Control-Allow-Methods", "GET, POST")
 		w.Header().Add("Access-Control-Allow-Headers", "authorization")
-		w.WriteHeader(http.StatusOK)
-		_, err := w.Write(nil)
-		if err != nil {
-			log.Printf("CORSOptionsHandler: write failure")
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			_, err := w.Write(nil)
+			if err != nil {
+				log.Printf("CORSOptionsHandler: write failure")
+			}
+			return
 		}
-		return
 	}
 	next(w, r)
 }
