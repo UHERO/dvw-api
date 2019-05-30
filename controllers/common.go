@@ -103,15 +103,15 @@ func getStrParam(r *http.Request, name string) (strval string, ok bool) {
 
 func CORSHandler(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	if r.Method == http.MethodOptions || r.Method == http.MethodGet {
-		w.Header().Add("Access-Control-Allow-Origin", "*")
-		w.Header().Add("Access-Control-Allow-Credentials", "true")
-		w.Header().Add("Access-Control-Allow-Methods", "GET, POST")
-		w.Header().Add("Access-Control-Allow-Headers", "authorization")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST")
+		w.Header().Set("Access-Control-Allow-Headers", "authorization")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
 			_, err := w.Write(nil)
 			if err != nil {
-				log.Printf("CORSHandler: write failure")
+				log.Printf("CORSHandler: write failure for OPTIONS")
 			}
 			return
 		}
