@@ -14,7 +14,7 @@ func CreateRouter(apiName string) *mux.Router {
 	apiRouter := mux.NewRouter().StrictSlash(false).PathPrefix(prefix).Subrouter()
 	SetRoutes(apiRouter)
 	router.PathPrefix(prefix).Handler(negroni.New(
-		negroni.HandlerFunc(controllers.CORSOptionsHandler),
+		negroni.HandlerFunc(controllers.CORSHandler),
 		//negroni.HandlerFunc(controllers.ValidApiKey(applicationRepository)),
 		controllers.CheckCache(),
 		negroni.Wrap(apiRouter),
