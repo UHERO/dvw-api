@@ -5,6 +5,7 @@ import (
 	"github.com/UHERO/dvw-api/data"
 	"github.com/garyburd/redigo/redis"
 	"github.com/gorilla/mux"
+	"github.com/urfave/negroni"
 	"log"
 	"net/http"
 	"strconv"
@@ -44,7 +45,7 @@ func CreateCache(prefix string, pool *redis.Pool, ttlMin int) {
 	cache = data.CreateCache(prefix, pool, ttlMin)
 }
 
-func CheckCache() func(http.ResponseWriter, *http.Request, http.HandlerFunc) {
+func CheckCache() negroni.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 		if cache != nil {
 			url := GetFullRelativeURL(r)
@@ -101,7 +102,7 @@ func getStrParam(r *http.Request, name string) (strval string, ok bool) {
 }
 
 func CORSOptionsHandler(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	if r.Method == http.MethodOptions {
+	if r.Method == http.MethodOptions || r.Method == http.MethodGet {
 		w.Header().Add("Access-Control-Allow-Origin", "*")
 		w.Header().Add("Access-Control-Allow-Credentials", "true")
 		w.Header().Add("Access-Control-Allow-Methods", "GET, POST")

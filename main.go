@@ -78,7 +78,7 @@ func main() {
 					return nil, err
 				}
 			}
-			log.Printf("Redis connection to %s established", redisServer)
+			//log.Printf("Redis connection to %s established", redisServer)
 			return c, nil
 		},
 		TestOnBorrow: func(c redis.Conn, t time.Time) error {
