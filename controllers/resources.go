@@ -13,3 +13,7 @@ type DimensionResource struct {
 type DimensionListResource struct {
 	Data []data.PortalDimension `json:"data"`
 }
+
+type SeriesResource struct {
+	Data data.Series `json:"data"`
+}

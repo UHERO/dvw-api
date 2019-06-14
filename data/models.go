@@ -39,3 +39,6 @@ type PortalDimension struct {
 	Unit      string	`json:"unit,omitempty"`
 	Decimal   string	`json:"decimal,omitempty"`
 }
+
+type Series struct {
+}
