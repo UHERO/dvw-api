@@ -28,4 +28,13 @@ func SetRoutes(r *mux.Router) {
 	r.HandleFunc("/{dimension:[a-z]+}/all/{module:[A-Za-z]+}",         controllers.GetDimensionAll()).Methods("GET")
 	r.HandleFunc("/{dimension:[a-z]+}/{handle:[A-Za-z0-9]+}/children", controllers.GetDimensionKidsByHandle()).Methods("GET")
 	r.HandleFunc("/{dimension:[a-z]+}/{handle:[A-Za-z0-9]+}",          controllers.GetDimensionByHandle()).Methods("GET")
+
+	r.HandleFunc("/trends", controllers.GetTrendData()).Methods("GET").Queries(
+		"i", "{i_list:[0-9,]+}",
+		"m", "{m_list:[0-9,]+}",
+		"d", "{d_list:[0-9,]+}",
+		"f", "{frequency:[aqm]}",
+		"from", "{from_date:[0-9][0-9-]+[0-9]}",
+		"to", "{to_date:[0-9][0-9-]+[0-9]}",
+	)
 }
