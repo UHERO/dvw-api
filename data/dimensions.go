@@ -22,13 +22,13 @@ func GetDimensionAll(dim string, mod string) (dimList []PortalDimension, err err
 		return
 	}
 	for results.Next() {
-		scanDim := Dimension{}
+		scanDim := ScanDimension{}
 		err = results.Scan(&scanDim.Module, &scanDim.Handle, &scanDim.NameP, &scanDim.NameW, &scanDim.NameT,
 						   &scanDim.Header, &scanDim.Parent, &scanDim.Level, &scanDim.Order, &scanDim.Unit, &scanDim.Decimal)
 		if err != nil {
 			return
 		}
-		pDim := PortalDimension{
+		pDim := Dimension{
 			Module: scanDim.Module,
 			Handle: scanDim.Handle,
 			NameW: scanDim.NameW,

@@ -30,11 +30,9 @@ func SetRoutes(r *mux.Router) {
 	r.HandleFunc("/{dimension:[a-z]+}/{handle:[A-Za-z0-9]+}",          controllers.GetDimensionByHandle()).Methods("GET")
 
 	r.HandleFunc("/ade", controllers.GetTrendData()).Methods("GET").Queries(
-		"i", "{i_list:[0-9,]+}",
-		"m", "{m_list:[0-9,]+}",
-		"d", "{d_list:[0-9,]+}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"m", "{m_list:[A-Za-z0-9,]+}",
+		"d", "{d_list:[A-Za-z0-9,]+}",
 		"f", "{frequency:[aqm]}",
-		"from", "{from_date:[0-9][0-9-]+[0-9]}",
-		"to", "{to_date:[0-9][0-9-]+[0-9]}",
 	)
 }

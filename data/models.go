@@ -2,6 +2,7 @@ package data
 
 import (
 	"database/sql"
+	"time"
 )
 
 var ModDimList = map[string][]string{
@@ -12,7 +13,7 @@ var ModDimList = map[string][]string{
 	"exp": {"groups", "categories", "indicators"},
 }
 
-type Dimension struct {
+type ScanDimension struct {
 	Module    string
 	Handle    string
 	NameP     sql.NullString
@@ -26,7 +27,7 @@ type Dimension struct {
 	Decimal   sql.NullString
 }
 
-type PortalDimension struct {
+type Dimension struct {
 	Module    string	`json:"module"`
 	Handle    string	`json:"handle"`
 	NameP     string	`json:"nameP,omitempty"`
@@ -40,5 +41,17 @@ type PortalDimension struct {
 	Decimal   string	`json:"decimal,omitempty"`
 }
 
-type Series struct {
+type Observation struct {
+	Date      time.Time
+	Value     sql.NullFloat64
+}
+
+// ADE (Trends) and Airseats share structures because they have the same dimensions
+type AdeSeatSeries struct {
+	Markets		 []Dimension  `json:"markets,omitempty"`
+	Destinations []Dimension  `json:"destinations,omitempty"`
+	Indicators   []Dimension  `json:"destinations,omitempty"`
+	Frequency    string		  `json:"frequency"`
+	ObservationDates   []string  `json:"dates"`
+	ObservationValues  []string  `json:"values"`
 }

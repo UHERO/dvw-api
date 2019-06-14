@@ -9,8 +9,10 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func SendResponseData(w http.ResponseWriter, r *http.Request, data interface{}) {
 	marsh, err := json.Marshal(data)
 	if err != nil {
@@ -21,6 +23,7 @@ func SendResponseData(w http.ResponseWriter, r *http.Request, data interface{}) 
 	WriteCache(r, marsh)
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func WriteResponse(w http.ResponseWriter, payload []byte) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -30,6 +33,7 @@ func WriteResponse(w http.ResponseWriter, payload []byte) {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func WriteErrorResponse(w http.ResponseWriter, code int, payload []byte) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
@@ -41,10 +45,12 @@ func WriteErrorResponse(w http.ResponseWriter, code int, payload []byte) {
 
 var cache *data.Cache
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func CreateCache(prefix string, pool *redis.Pool, ttlMin int) {
 	cache = data.CreateCache(prefix, pool, ttlMin)
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func CheckCache() negroni.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 		if cache != nil {
@@ -60,6 +66,7 @@ func CheckCache() negroni.HandlerFunc {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func WriteCache(r *http.Request, payload []byte) {
 	if cache == nil {
 		return
@@ -72,6 +79,7 @@ func WriteCache(r *http.Request, payload []byte) {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func GetFullRelativeURL(r *http.Request) string {
 	path := r.URL.Path
 	if r.URL.RawQuery == "" {
@@ -80,6 +88,7 @@ func GetFullRelativeURL(r *http.Request) string {
 	return path + "?" + r.URL.RawQuery
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func getIntParam(r *http.Request, name string) (intval int, ok bool) {
 	ok = true
 	param, ok := getStrParam(r, name)
@@ -95,12 +104,29 @@ func getIntParam(r *http.Request, name string) (intval int, ok bool) {
 	return
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+func getStrList(r *http.Request, name string) (handles []string, ok bool) {
+	ok = true
+	handleList, ok := mux.Vars(r)[name]
+	if !ok {
+		// do something?
+		return
+	}
+	handleArray := strings.Split(handleList, ",")
+	for _, handle := range handleArray {
+		handles = append(handles, strings.ToUpper(handle))
+	}
+	return
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func getStrParam(r *http.Request, name string) (strval string, ok bool) {
 	strval, ok = mux.Vars(r)[name]
 	// maybe create a new error and return that instead of boolean?
 	return
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func CORSHandler(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	if r.Method == http.MethodOptions || r.Method == http.MethodGet {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -130,6 +156,7 @@ type (
 	}
 )
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func ReturnAppError(w http.ResponseWriter, handlerError error, message string, code int) {
 	errObj := appError{
 		Error:      handlerError.Error(),
