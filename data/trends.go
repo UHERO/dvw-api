@@ -63,18 +63,10 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 		}
 		series.Dates = append(series.Dates, scanObs.Date)
 		series.Values = append(series.Values, scanObs.Value)
-		if scanObs.Date.Before(series.ObsStart) || series.ObsStart.IsZero() {
-			series.ObsStart = scanObs.Date
-		}
-		if scanObs.Date.After(series.ObsEnd) || series.ObsEnd.IsZero() {
-			series.ObsEnd = scanObs.Date
-		}
-		if scanObs.Date.Before(result.ObsStart) || result.ObsStart.IsZero() {
-			result.ObsStart = scanObs.Date
-		}
-		if scanObs.Date.After(result.ObsEnd) || result.ObsEnd.IsZero() {
-			result.ObsEnd = scanObs.Date
-		}
+		updateIfEarlier(&series.ObsStart, scanObs.Date)
+		updateIfEarlier(&result.ObsStart, scanObs.Date)
+		updateIfLater(&series.ObsEnd, scanObs.Date)
+		updateIfLater(&result.ObsEnd, scanObs.Date)
 	}
 	result.Frequency = freq
 	return
