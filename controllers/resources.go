@@ -7,11 +7,11 @@ type ModuleDimResource struct {
 }
 
 type DimensionResource struct {
-	Data data.PortalDimension `json:"data"`
+	Data data.Dimension `json:"data"`
 }
 
 type DimensionListResource struct {
-	Data []data.PortalDimension `json:"data"`
+	Data []data.Dimension `json:"data"`
 }
 
 type SeriesResource struct {

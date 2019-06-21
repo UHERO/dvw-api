@@ -66,7 +66,7 @@ type Series struct {
 
 type SeriesResults struct {
 	Frequency	string		`json:"frequency"`
-	ObsStart	*time.Time	`json:"observationStart,omitempty"`
-	ObsEnd		*time.Time	`json:"observationEnd,omitempty"`
+	ObsStart	time.Time	`json:"observationStart,omitempty"`
+	ObsEnd		time.Time	`json:"observationEnd,omitempty"`
 	SeriesList	[]Series	`json:"series"`
 }

@@ -29,20 +29,20 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 	}
 	query += "order by 1,2,3,4" + "" // extra "" only to make GoLand shut up about an error :(
 
-	results, err := Db.Query(query, bindVals...)
+	dbResults, err := Db.Query(query, bindVals...)
 	if err != nil {
 		log.Printf("Database error: %s", err.Error())
 		return
 	}
 	currentSlug := ""
 	var series Series
-	for results.Next() {
+	for dbResults.Next() {
 		scanObs := ScanObsDim3{}
-		err = results.Scan(&scanObs.Dim1, &scanObs.Dim2, &scanObs.Dim3, &scanObs.Date, &scanObs.Value)
+		err = dbResults.Scan(&scanObs.Dim1, &scanObs.Dim2, &scanObs.Dim3, &scanObs.Date, &scanObs.Value)
 		if err != nil {
 			return
 		}
-		dims := []string{nil, nil, nil}
+		dims := []string{"", "", ""}
 		if scanObs.Dim1.Valid {
 			dims[0] = scanObs.Dim1.String
 		}
@@ -69,6 +69,13 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 		if scanObs.Date.After(series.ObsEnd) || series.ObsEnd.IsZero() {
 			series.ObsEnd = scanObs.Date
 		}
+		if scanObs.Date.Before(result.ObsStart) || result.ObsStart.IsZero() {
+			result.ObsStart = scanObs.Date
+		}
+		if scanObs.Date.After(result.ObsEnd) || result.ObsEnd.IsZero() {
+			result.ObsEnd = scanObs.Date
+		}
 	}
+	result.Frequency = freq
 	return
 }
