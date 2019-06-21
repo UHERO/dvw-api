@@ -2,7 +2,6 @@ package data
 
 import (
 	"database/sql"
-	"time"
 )
 
 var ModDimList = map[string][]string{
@@ -44,7 +43,7 @@ type Dimension struct {
 type ScanObsDim2 struct {
 	Dim1	sql.NullString
 	Dim2	sql.NullString
-	Date	time.Time
+	Date	UhTime
 	Value	float32
 }
 
