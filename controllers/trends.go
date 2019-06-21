@@ -15,10 +15,10 @@ func GetAdeData() http.HandlerFunc {
 		}
 		markets, ok := getHandleList(r, "m_list")
 		destinations, ok := getHandleList(r, "d_list")
-		series, err := data.GetAdeData(freq, indicators, markets, destinations)
+		seriesRes, err := data.GetAdeData(freq, indicators, markets, destinations)
 		if err != nil {
 			// do something
 		}
-		SendResponseData(w, r, SeriesResource{Data: series})
+		SendResponseData(w, r, SeriesResource{Data: seriesRes})
 	}
 }
