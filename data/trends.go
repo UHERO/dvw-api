@@ -7,7 +7,7 @@ import (
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 func GetAdeData(freq string, indicators []string, markets []string, destinations []string) (series Series, err error) {
 	//language=MySQL
-	var query =
+	query :=
 		`select i.handle, m.handle, d.handle, dp.date, dp.value
 		 from data_points dp
 			join indicators i on i.id = dp.indicator_id
@@ -15,6 +15,13 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 		    join destinations d on d.id = dp.destination_id
 		 where dp.module = 'ADE'
 		 and dp.frequency = ? `
+	if len(markets) > 0 {
+		query += "and m.handle in (" + makeQlist(len(markets)) + ") "
+	}
+	if len(destinations) > 0 {
+		query += "and d.handle in (" + makeQlist(len(destinations)) + ") "
+	}
+	query += "order by 1,2,3,4"
 	var bindVals []interface{}
 	bindVals = append(bindVals, freq)
 	bindVals = append(bindVals, indicators)
