@@ -53,15 +53,22 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 			dims[2] = scanObs.Dim3.String
 		}
 		slug := makeSeriesSlug(dims)
-		if slug != currentSlug && currentSlug != "" {
-			result.SeriesList = append(result.SeriesList, pSeries)
+		if slug != currentSlug {
+			if currentSlug != "" {
+				result.SeriesList = append(result.SeriesList, series)
+			}
+			series = Series{}
+			series.Columns = dims
 			currentSlug = slug
-			continue
 		}
-		series = Series{}
-		series.Columns = dims
-		series.Dates = append(pSeries.Dates, scanObs.Date)
-		series.Values = append(pSeries.Values, scanObs.Value)
+		series.Dates = append(series.Dates, scanObs.Date)
+		series.Values = append(series.Values, scanObs.Value)
+		if scanObs.Date.Before(series.ObsStart) || series.ObsStart.IsZero() {
+			series.ObsStart = scanObs.Date
+		}
+		if scanObs.Date.After(series.ObsEnd) || series.ObsEnd.IsZero() {
+			series.ObsEnd = scanObs.Date
+		}
 	}
 	return
 }
