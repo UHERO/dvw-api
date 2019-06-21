@@ -44,7 +44,7 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 	var series Series
 	for dbResults.Next() {
 		scanObs := ScanObsDim3{}
-		err = dbResults.Scan(&scanObs.Dim1, &scanObs.Dim2, &scanObs.Dim3, &scanObs.Date, &scanObs.Value)
+		err = dbResults.Scan(&scanObs.Dim1, &scanObs.Dim2, &scanObs.Dim3, &scanObs.Date.Time, &scanObs.Value)
 		if err != nil {
 			return
 		}
@@ -69,10 +69,10 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 		}
 		series.Dates = append(series.Dates, scanObs.Date)
 		series.Values = append(series.Values, scanObs.Value)
-		updateIfEarlier(&series.ObsStart, scanObs.Date)
-		updateIfEarlier(&result.ObsStart, scanObs.Date)
-		updateIfLater(&series.ObsEnd, scanObs.Date)
-		updateIfLater(&result.ObsEnd, scanObs.Date)
+		series.ObsStart.updateIfEarlier(scanObs.Date)
+		result.ObsStart.updateIfEarlier(scanObs.Date)
+		series.ObsEnd.updateIfLater(scanObs.Date)
+		result.ObsEnd.updateIfLater(scanObs.Date)
 	}
 	result.SeriesList = append(result.SeriesList, series) // the last series being read when the loop ended
 	result.Frequency = freq

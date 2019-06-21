@@ -52,21 +52,21 @@ type ScanObsDim3 struct {
 	Dim1	sql.NullString
 	Dim2	sql.NullString
 	Dim3	sql.NullString
-	Date	time.Time
+	Date	UhTime
 	Value	float32
 }
 
 type Series struct {
 	Columns		[]string	`json:"columns"`
-	ObsStart	time.Time	`json:"observationStart,omitempty"`
-	ObsEnd		time.Time	`json:"observationEnd,omitempty"`
-	Dates   	[]time.Time	`json:"dates"`
+	ObsStart	UhTime		`json:"observationStart,omitempty"`
+	ObsEnd		UhTime		`json:"observationEnd,omitempty"`
+	Dates   	[]UhTime	`json:"dates"`
 	Values  	[]float32	`json:"values"`
 }
 
 type SeriesResults struct {
 	Frequency	string		`json:"frequency"`
-	ObsStart	time.Time	`json:"observationStart,omitempty"`
-	ObsEnd		time.Time	`json:"observationEnd,omitempty"`
+	ObsStart	UhTime		`json:"observationStart,omitempty"`
+	ObsEnd		UhTime		`json:"observationEnd,omitempty"`
 	SeriesList	[]Series	`json:"series"`
 }
