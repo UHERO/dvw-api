@@ -26,8 +26,8 @@ func CreateRouter(apiName string) *mux.Router {
 func SetRoutes(r *mux.Router) {
 	r.HandleFunc("/dimensions/{module:[A-Za-z]+}",					   controllers.GetModuleDimensions()).Methods("GET")
 	r.HandleFunc("/{dimension:[a-z]+}/all/{module:[A-Za-z]+}",         controllers.GetDimensionAll()).Methods("GET")
+	r.HandleFunc("/{dimension:[a-z]+}/handle/{handle:[A-Za-z0-9]+}",   controllers.GetDimensionByHandle()).Methods("GET")
 	r.HandleFunc("/{dimension:[a-z]+}/{handle:[A-Za-z0-9]+}/children", controllers.GetDimensionKidsByHandle()).Methods("GET")
-	r.HandleFunc("/{dimension:[a-z]+}/{handle:[A-Za-z0-9]+}",          controllers.GetDimensionByHandle()).Methods("GET")
 
 	r.HandleFunc("/series/ade", controllers.GetAdeData()).Methods("GET").Queries(
 		"f", "{frequency:[AQMaqm]}",

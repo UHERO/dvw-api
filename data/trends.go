@@ -17,17 +17,23 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 		 and dp.frequency = ? `
 	var bindVals []interface{}
 	bindVals = append(bindVals, freq)
-	query += "and i.handle in (" + makeQlist(len(indicators)) + ") "
-	bindVals = append(bindVals, indicators)
+	query += "and i.handle in (" + makeQlist(len(indicators)) + ")\n"
+	for _, ind := range indicators {
+		bindVals = append(bindVals, ind)
+	}
 	if len(markets) > 0 {
-		query += "and m.handle in (" + makeQlist(len(markets)) + ") "
-		bindVals = append(bindVals, markets)
+		query += "and m.handle in (" + makeQlist(len(markets)) + ")\n"
+		for _, mkt := range markets {
+			bindVals = append(bindVals, mkt)
+		}
 	}
 	if len(destinations) > 0 {
-		query += "and d.handle in (" + makeQlist(len(destinations)) + ") "
-		bindVals = append(bindVals, destinations)
+		query += "and d.handle in (" + makeQlist(len(destinations)) + ")\n"
+		for _, dest := range destinations {
+			bindVals = append(bindVals, dest)
+		}
 	}
-	query += "order by 1,2,3,4" + "" // extra "" only to make GoLand shut up about an error :(
+	query += "order by 1,2,3,4" + "\n" // extra "\n" only to make GoLand shut up about an error :(
 
 	dbResults, err := Db.Query(query, bindVals...)
 	if err != nil {
@@ -68,6 +74,7 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 		updateIfLater(&series.ObsEnd, scanObs.Date)
 		updateIfLater(&result.ObsEnd, scanObs.Date)
 	}
+	result.SeriesList = append(result.SeriesList, series) // the last series being read when the loop ended
 	result.Frequency = freq
 	return
 }
