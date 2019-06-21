@@ -15,16 +15,20 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 		    join destinations d on d.id = dp.destination_id
 		 where dp.module = 'ADE'
 		 and dp.frequency = ? `
+	var bindVals []interface{}
+	bindVals = append(bindVals, freq)
+	query += "and i.handle in (" + makeQlist(len(indicators)) + ") "
+	bindVals = append(bindVals, indicators)
 	if len(markets) > 0 {
 		query += "and m.handle in (" + makeQlist(len(markets)) + ") "
+		bindVals = append(bindVals, markets)
 	}
 	if len(destinations) > 0 {
 		query += "and d.handle in (" + makeQlist(len(destinations)) + ") "
+		bindVals = append(bindVals, destinations)
 	}
 	query += "order by 1,2,3,4"
-	var bindVals []interface{}
-	bindVals = append(bindVals, freq)
-	bindVals = append(bindVals, indicators)
+
 	results, err := Db.Query(query, bindVals...)
 	if err != nil {
 		log.Printf("Database error: %s", err.Error())
