@@ -41,17 +41,27 @@ type Dimension struct {
 	Decimal   string	`json:"decimal,omitempty"`
 }
 
-type Observation struct {
-	Date      time.Time
-	Value     sql.NullFloat64
+type ScanObsDim2 struct {
+	Dim1	sql.NullString
+	Dim2	sql.NullString
+	Date	time.Time
+	Value	float32
+}
+
+type ScanObsDim3 struct {
+	Dim1	sql.NullString
+	Dim2	sql.NullString
+	Dim3	sql.NullString
+	Date	time.Time
+	Value	float32
 }
 
 type Series struct {
 	Columns		[]string	`json:"columns"`
 	ObsStart	time.Time	`json:"observationStart,omitempty"`
 	ObsEnd		time.Time	`json:"observationEnd,omitempty"`
-	Dates   	[]string	`json:"dates"`
-	Values  	[]string	`json:"values"`
+	Dates   	[]time.Time	`json:"dates"`
+	Values  	[]float32	`json:"values"`
 }
 
 type SeriesResults struct {
