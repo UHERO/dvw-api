@@ -6,7 +6,7 @@ import (
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetDimensionAll(dim string, mod string) (dimList []PortalDimension, err error) {
+func GetDimensionAll(dim string, mod string) (dimList []Dimension, err error) {
 	xtraCols := ", null, null"  // No unit or decimals for all tables other than indicators
 	if dim == "indicators" {
 		xtraCols = ", t.unit, t.decimal"

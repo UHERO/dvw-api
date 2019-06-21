@@ -105,7 +105,7 @@ func getIntParam(r *http.Request, name string) (intval int, ok bool) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func getStrList(r *http.Request, name string) (handles []string, ok bool) {
+func getHandleList(r *http.Request, name string) (handles []string, ok bool) {
 	ok = true
 	handleList, ok := mux.Vars(r)[name]
 	if !ok {

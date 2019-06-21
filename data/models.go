@@ -46,12 +46,17 @@ type Observation struct {
 	Value     sql.NullFloat64
 }
 
-// ADE (Trends) and Airseats share structures because they have the same dimensions
-type AdeSeatSeries struct {
-	Markets		 []Dimension  `json:"markets,omitempty"`
-	Destinations []Dimension  `json:"destinations,omitempty"`
-	Indicators   []Dimension  `json:"destinations,omitempty"`
-	Frequency    string		  `json:"frequency"`
-	ObservationDates   []string  `json:"dates"`
-	ObservationValues  []string  `json:"values"`
+type Series struct {
+	Columns		[]string	`json:"columns"`
+	ObsStart	time.Time	`json:"observationStart,omitempty"`
+	ObsEnd		time.Time	`json:"observationEnd,omitempty"`
+	Dates   	[]string	`json:"dates"`
+	Values  	[]string	`json:"values"`
+}
+
+type SeriesResults struct {
+	Frequency	string		`json:"frequency"`
+	ObsStart	*time.Time	`json:"observationStart,omitempty"`
+	ObsEnd		*time.Time	`json:"observationEnd,omitempty"`
+	SeriesList	[]Series	`json:"series"`
 }

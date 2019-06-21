@@ -37,15 +37,15 @@ func GetDimensionAll() http.HandlerFunc {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetDimensionByHandle() http.HandlerFunc {  ///// NOT IMPLEMENTED YET - PLACEHOLDER
+func GetDimensionKidsByHandle() http.HandlerFunc {    ///// NOT IMPLEMENTED YET - PLACEHOLDER
 	return func(w http.ResponseWriter, r *http.Request) {
-		//SendResponseData(w, r, DimensionResource{Data: data.PortalDimension{}})
+		//SendResponseData(w, r, DimensionListResource{Data: []data.PortalDimension{}})
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetDimensionKidsByHandle() http.HandlerFunc {    ///// NOT IMPLEMENTED YET - PLACEHOLDER
+func GetDimensionByHandle() http.HandlerFunc {  ///// NOT IMPLEMENTED YET - PLACEHOLDER
 	return func(w http.ResponseWriter, r *http.Request) {
-		//SendResponseData(w, r, DimensionListResource{Data: []data.PortalDimension{}})
+		//SendResponseData(w, r, DimensionResource{Data: data.PortalDimension{}})
 	}
 }

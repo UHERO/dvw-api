@@ -6,16 +6,19 @@ import (
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetTrendData() http.HandlerFunc {
+func GetAdeData() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		indicators, ok := getStrList(r, "i_list")
+		freq, ok := getStrParam(r, "frequency")
+		indicators, ok := getHandleList(r, "i_list")
 		if !ok {
 			// do something
 		}
-		freq, ok := getStrParam(r, "frequency")
-		markets, ok := getStrList(r, "m_list")
-		destinations, ok := getStrList(r, "d_list")
-		series, err := data.GetTrendData(indicators, markets, destinations, freq)
-		SendResponseData(w, r, ADESeatResource{Data: series})
+		markets, ok := getHandleList(r, "m_list")
+		destinations, ok := getHandleList(r, "d_list")
+		series, err := data.GetAdeData(freq, indicators, markets, destinations)
+		if err != nil {
+			// do something
+		}
+		SendResponseData(w, r, SeriesResource{Data: series})
 	}
 }
