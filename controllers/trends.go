@@ -13,8 +13,8 @@ func GetAdeData() http.HandlerFunc {
 		if !ok {
 			// do something
 		}
-		markets, ok := getHandleList(r, "m_list")
-		destinations, ok := getHandleList(r, "d_list")
+		markets, _ := getHandleList(r, "m_list")
+		destinations, _ := getHandleList(r, "d_list")
 		seriesRes, err := data.GetAdeData(freq, indicators, markets, destinations)
 		if err != nil {
 			// do something
