@@ -64,6 +64,7 @@ type Series struct {
 }
 
 type SeriesResults struct {
+	Module		string		`json:"frequency"`
 	Frequency	string		`json:"frequency"`
 	ObsStart	UhTime		`json:"observationStart,omitempty"`
 	ObsEnd		UhTime		`json:"observationEnd,omitempty"`

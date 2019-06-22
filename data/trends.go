@@ -1,11 +1,9 @@
 package data
 
-import (
-	"log"
-)
+import "log"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetAdeData(freq string, indicators []string, markets []string, destinations []string) (result SeriesResults, err error) {
+func GetAdeAirseatData(module, freq string, indicators, markets, destinations []string) (result SeriesResults, err error) {
 	//language=MySQL
 	query :=
 		`select i.handle, m.handle, d.handle, dp.date, dp.value
@@ -13,10 +11,10 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 		 left join indicators i on i.id = dp.indicator_id
 		 left join markets m on m.id = dp.market_id
 		 left join destinations d on d.id = dp.destination_id
-		 where dp.module = 'ADE'
-		 and dp.frequency = ? `
+		 where dp.module = ? and dp.frequency = ? `
+
 	var bindVals []interface{}
-	bindVals = append(bindVals, freq)
+	bindVals = append(bindVals, module, freq)
 	query += "and i.handle in (" + makeQlist(len(indicators)) + ")\n"
 	for _, ind := range indicators {
 		bindVals = append(bindVals, ind)
@@ -76,6 +74,7 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 		result.ObsEnd.updateIfLater(scanObs.Date)
 	}
 	result.SeriesList = append(result.SeriesList, series) // the last series being read when the loop ended
+	result.Module = module
 	result.Frequency = freq
 	return
 }
