@@ -67,8 +67,9 @@ func GetAdeData(freq string, indicators []string, markets []string, destinations
 			series.Columns = dims
 			currentSlug = slug
 		}
-		series.Dates = append(series.Dates, scanObs.Date)
+		series.Dates  = append(series.Dates,  scanObs.Date)
 		series.Values = append(series.Values, scanObs.Value)
+
 		series.ObsStart.updateIfEarlier(scanObs.Date)
 		result.ObsStart.updateIfEarlier(scanObs.Date)
 		series.ObsEnd.updateIfLater(scanObs.Date)

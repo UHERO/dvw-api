@@ -35,4 +35,14 @@ func SetRoutes(r *mux.Router) {
 		"m", "{m_list:[A-Za-z0-9,]+}",
 		"d", "{d_list:[A-Za-z0-9,]+}",
 	)
+	r.HandleFunc("/series/ade", controllers.GetAdeData()).Methods("GET").Queries(
+		"f", "{frequency:[AQMaqm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"m", "{m_list:[A-Za-z0-9,]+}",
+	)
+	r.HandleFunc("/series/ade", controllers.GetAdeData()).Methods("GET").Queries(
+		"f", "{frequency:[AQMaqm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"d", "{d_list:[A-Za-z0-9,]+}",
+	)
 }
