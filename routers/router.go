@@ -30,41 +30,41 @@ func SetRoutes(r *mux.Router) {
 	r.HandleFunc("/{dimension:[a-z]+}/{handle:[A-Za-z0-9]+}/children", controllers.GetDimensionKidsByHandle()).Methods("GET")
 
 	r.HandleFunc("/series/ade", controllers.GetAdeAirseatData("ade")).Methods("GET").Queries(
-		"f", "{frequency:[AQMaqm]}",
+		"f", "{frequency:[AaQqMm]}",
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"m", "{m_list:[A-Za-z0-9,]+}",
 		"d", "{d_list:[A-Za-z0-9,]+}",
 	)
 	r.HandleFunc("/series/ade", controllers.GetAdeAirseatData("ade")).Methods("GET").Queries(
-		"f", "{frequency:[AQMaqm]}",
+		"f", "{frequency:[AaQqMm]}",
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"m", "{m_list:[A-Za-z0-9,]+}",
 	)
 	r.HandleFunc("/series/ade", controllers.GetAdeAirseatData("ade")).Methods("GET").Queries(
-		"f", "{frequency:[AQMaqm]}",
+		"f", "{frequency:[AaQqMm]}",
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"d", "{d_list:[A-Za-z0-9,]+}",
 	)
 
 	r.HandleFunc("/series/airseat", controllers.GetAdeAirseatData("airseat")).Methods("GET").Queries(
-		"f", "{frequency:[AQMaqm]}",
+		"f", "{frequency:[AaQqMm]}",
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"m", "{m_list:[A-Za-z0-9,]+}",
 		"d", "{d_list:[A-Za-z0-9,]+}",
 	)
 	r.HandleFunc("/series/airseat", controllers.GetAdeAirseatData("airseat")).Methods("GET").Queries(
-		"f", "{frequency:[AQMaqm]}",
+		"f", "{frequency:[AaQqMm]}",
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"m", "{m_list:[A-Za-z0-9,]+}",
 	)
 	r.HandleFunc("/series/airseat", controllers.GetAdeAirseatData("airseat")).Methods("GET").Queries(
-		"f", "{frequency:[AQMaqm]}",
+		"f", "{frequency:[AaQqMm]}",
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"d", "{d_list:[A-Za-z0-9,]+}",
 	)
 
 	r.HandleFunc("/series/hotel", controllers.GetHotelData("hotel")).Methods("GET").Queries(
-		"f", "{frequency:[AQMaqm]}",
+		"f", "{frequency:[AaQqMm]}",
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"c", "{c_list:[A-Za-z0-9,]+}",
 	)
