@@ -1,12 +1,15 @@
 package data
 
-import "log"
+import (
+	"log"
+	"strings"
+)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 func GetAdeAirseatData(module, freq string, indicators, markets, destinations []string) (result SeriesResults, err error) {
 	//language=MySQL
 	query :=
-		`select i.handle, m.handle, d.handle, dp.date, dp.value
+		`select i.module, i.handle, m.handle, d.handle, dp.date, dp.value
 		 from data_points dp
 		 left join indicators i on i.id = dp.indicator_id
 		 left join markets m on m.id = dp.market_id
@@ -31,7 +34,7 @@ func GetAdeAirseatData(module, freq string, indicators, markets, destinations []
 			bindVals = append(bindVals, dest)
 		}
 	}
-	query += "order by 1,2,3,4" + "\n" // extra "\n" only to make GoLand shut up about an error :(
+	query += "order by 1,2,3,4,5" + "\n" // extra "\n" only to make GoLand shut up about an error :(
 
 	dbResults, err := Db.Query(query, bindVals...)
 	if err != nil {
@@ -42,7 +45,7 @@ func GetAdeAirseatData(module, freq string, indicators, markets, destinations []
 	var series Series
 	for dbResults.Next() {
 		scanObs := ScanObservation{}
-		err = dbResults.Scan(&scanObs.Dim1, &scanObs.Dim2, &scanObs.Dim3, &scanObs.Date.Time, &scanObs.Value)
+		err = dbResults.Scan(&result.Module, &scanObs.Dim1, &scanObs.Dim2, &scanObs.Dim3, &scanObs.Date.Time, &scanObs.Value)
 		if err != nil {
 			return
 		}
@@ -74,8 +77,7 @@ func GetAdeAirseatData(module, freq string, indicators, markets, destinations []
 		result.ObsEnd.updateIfLater(scanObs.Date)
 	}
 	result.SeriesList = append(result.SeriesList, series) // the last series being read when the loop ended
-	result.Module = module
-	result.Frequency = freq
+	result.Frequency = strings.ToUpper(freq)
 	return
 }
 
@@ -83,7 +85,7 @@ func GetAdeAirseatData(module, freq string, indicators, markets, destinations []
 func GetHotelData(module, freq string, indicators, categories []string) (result SeriesResults, err error) {
 	//language=MySQL
 	query :=
-		`select i.handle, c.handle, dp.date, dp.value
+		`select i.module, i.handle, c.handle, dp.date, dp.value
 		 from data_points dp
 		 left join indicators i on i.id = dp.indicator_id
 		 left join categories c on c.id = dp.category_id
@@ -101,7 +103,7 @@ func GetHotelData(module, freq string, indicators, categories []string) (result 
 			bindVals = append(bindVals, cat)
 		}
 	}
-	query += "order by 1,2,3" + "\n" // extra "\n" only to make GoLand shut up about an error :(
+	query += "order by 1,2,3,4" + "\n" // extra "\n" only to make GoLand shut up about an error :(
 
 	dbResults, err := Db.Query(query, bindVals...)
 	if err != nil {
@@ -112,7 +114,7 @@ func GetHotelData(module, freq string, indicators, categories []string) (result 
 	var series Series
 	for dbResults.Next() {
 		scanObs := ScanObservation{}
-		err = dbResults.Scan(&scanObs.Dim1, &scanObs.Dim2, &scanObs.Date.Time, &scanObs.Value)
+		err = dbResults.Scan(&result.Module, &scanObs.Dim1, &scanObs.Dim2, &scanObs.Date.Time, &scanObs.Value)
 		if err != nil {
 			return
 		}
@@ -141,7 +143,6 @@ func GetHotelData(module, freq string, indicators, categories []string) (result 
 		result.ObsEnd.updateIfLater(scanObs.Date)
 	}
 	result.SeriesList = append(result.SeriesList, series) // the last series being read when the loop ended
-	result.Module = module
-	result.Frequency = freq
+	result.Frequency = strings.ToUpper(freq)
 	return
 }
