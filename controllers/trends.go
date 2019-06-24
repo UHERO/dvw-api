@@ -22,3 +22,20 @@ func GetAdeAirseatData(module string) http.HandlerFunc {
 		SendResponseData(w, r, SeriesResource{Data: seriesRes})
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+func GetHotelData(module string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		freq, ok := getStrParam(r, "frequency")
+		indicators, ok := getHandleList(r, "i_list")
+		if !ok {
+			// do something
+		}
+		categories, _ := getHandleList(r, "c_list")
+		seriesRes, err := data.GetHotelData(module, freq, indicators, categories)
+		if err != nil {
+			// do something
+		}
+		SendResponseData(w, r, SeriesResource{Data: seriesRes})
+	}
+}

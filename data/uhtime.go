@@ -2,6 +2,8 @@ package data
 
 import "time"
 
+//// Instead of a struct, could it just be an ALIAS for time.Time?
+//// Would that make omitempty work?
 type UhTime struct {
 	time.Time
 }

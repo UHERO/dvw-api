@@ -40,14 +40,7 @@ type Dimension struct {
 	Decimal   string	`json:"decimal,omitempty"`
 }
 
-type ScanObsDim2 struct {
-	Dim1	sql.NullString
-	Dim2	sql.NullString
-	Date	UhTime
-	Value	float32
-}
-
-type ScanObsDim3 struct {
+type ScanObservation struct {
 	Dim1	sql.NullString
 	Dim2	sql.NullString
 	Dim3	sql.NullString

@@ -62,4 +62,10 @@ func SetRoutes(r *mux.Router) {
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"d", "{d_list:[A-Za-z0-9,]+}",
 	)
+
+	r.HandleFunc("/series/hotel", controllers.GetHotelData("hotel")).Methods("GET").Queries(
+		"f", "{frequency:[AQMaqm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"c", "{c_list:[A-Za-z0-9,]+}",
+	)
 }
