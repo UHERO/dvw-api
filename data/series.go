@@ -146,3 +146,7 @@ func GetHotelData(module, freq string, indicators, categories []string) (result 
 	result.Frequency = strings.ToUpper(freq)
 	return
 }
+
+func makeSeriesSlug(parts []string) string {
+	return strings.Join(parts, ":")
+}
