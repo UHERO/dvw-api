@@ -1,0 +1,15 @@
+/* A view that's convenient for development but maybe not useful in production */
+create view series_view as
+select  dp.`module`,
+        i.handle as ihandle, i.nameW as iname,
+        c.handle as chandle, c.nameW as cname,
+        d.handle as dhandle, d.nameW as dname,
+        g.handle as ghandle, g.nameW as gname,
+        m.handle as mhandle, m.nameW as mname,
+        dp.frequency, dp.`date`, dp.`value`
+from data_points dp
+left join indicators i on i.id = dp.indicator_id
+left join categories c on c.id = dp.category_id
+left join destinations d on d.id = dp.destination_id
+left join groups g on g.id = dp.group_id
+left join markets m on m.id = dp.market_id
