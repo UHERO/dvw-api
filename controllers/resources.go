@@ -15,5 +15,5 @@ type DimensionListResource struct {
 }
 
 type SeriesResource struct {
-	Data data.SeriesResults `json:"data"`
+	Data *data.SeriesResults `json:"data"`
 }

@@ -6,7 +6,7 @@ import (
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetAdeAirseatData(module, freq string, indicators, markets, destinations []string) (result SeriesResults, err error) {
+func GetAdeAirseatData(module, freq string, indicators, markets, destinations []string) (result *SeriesResults, err error) {
 	//language=MySQL
 	query :=
 		`select i.module, i.handle, m.handle, d.handle, dp.date, dp.value
@@ -44,6 +44,9 @@ func GetAdeAirseatData(module, freq string, indicators, markets, destinations []
 	currentSlug := ""
 	var series Series
 	for dbResults.Next() {
+		if result == nil {
+			result = &SeriesResults{Frequency: strings.ToUpper(freq)} // only initialize result struct if there's a result
+		}
 		scanObs := ScanObservation{}
 		err = dbResults.Scan(&result.Module, &scanObs.Dim1, &scanObs.Dim2, &scanObs.Dim3, &scanObs.Date.Time, &scanObs.Value)
 		if err != nil {
@@ -76,8 +79,9 @@ func GetAdeAirseatData(module, freq string, indicators, markets, destinations []
 		series.ObsEnd.updateIfLater(scanObs.Date)
 		result.ObsEnd.updateIfLater(scanObs.Date)
 	}
-	result.SeriesList = append(result.SeriesList, series) // the last series being read when the loop ended
-	result.Frequency = strings.ToUpper(freq)
+	if result != nil {
+		result.SeriesList = append(result.SeriesList, series) // the last series being read when the loop ended
+	}
 	return
 }
 

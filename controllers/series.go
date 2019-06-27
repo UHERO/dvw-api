@@ -36,6 +36,7 @@ func GetHotelData(module string) http.HandlerFunc {
 		if err != nil {
 			// do something
 		}
-		SendResponseData(w, r, SeriesResource{Data: seriesRes})
+				/////////////////////////// fix this or revert ^^^^^^^^^^^^^^^^^^^^^^^^
+		SendResponseData(w, r, SeriesResource{Data: &seriesRes})
 	}
 }
