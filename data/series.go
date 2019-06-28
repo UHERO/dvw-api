@@ -86,7 +86,7 @@ func GetAdeAirseatData(module, freq string, indicators, markets, destinations []
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetHotelData(module, freq string, indicators, categories []string) (result SeriesResults, err error) {
+func GetHotelData(module, freq string, indicators, categories []string) (result *SeriesResults, err error) {
 	//language=MySQL
 	query :=
 		`select i.module, i.handle, c.handle, dp.date, dp.value
@@ -117,6 +117,9 @@ func GetHotelData(module, freq string, indicators, categories []string) (result 
 	currentSlug := ""
 	var series Series
 	for dbResults.Next() {
+		if result == nil {
+			result = &SeriesResults{Frequency: strings.ToUpper(freq)} // only initialize result struct if there's a result
+		}
 		scanObs := ScanObservation{}
 		err = dbResults.Scan(&result.Module, &scanObs.Dim1, &scanObs.Dim2, &scanObs.Date.Time, &scanObs.Value)
 		if err != nil {
@@ -146,8 +149,9 @@ func GetHotelData(module, freq string, indicators, categories []string) (result 
 		series.ObsEnd.updateIfLater(scanObs.Date)
 		result.ObsEnd.updateIfLater(scanObs.Date)
 	}
-	result.SeriesList = append(result.SeriesList, series) // the last series being read when the loop ended
-	result.Frequency = strings.ToUpper(freq)
+	if result != nil {
+		result.SeriesList = append(result.SeriesList, series) // the last series being read when the loop ended
+	}
 	return
 }
 
