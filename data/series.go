@@ -155,6 +155,16 @@ func GetHotelData(module, freq string, indicators, categories []string) (result 
 	return
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func makeSeriesSlug(parts []string) string {
 	return strings.Join(parts, ":")
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+func makeQlist(length int) string {
+	var list []string
+	for i := 0; i < length; i++ {
+		list = append(list, "?")
+	}
+	return strings.Join(list, ",")
 }
