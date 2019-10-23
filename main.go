@@ -89,13 +89,18 @@ func main() {
 			return err
 		},
 	}
-	cacheTTLStr := strings.TrimSpace(os.Getenv("API_CACHE_TTL"))
-	if cacheTTLStr == "" {
-		cacheTTLStr = "10"
+	ttlMinutes := 10
+	cacheTtl, ok := os.LookupEnv("API_CACHE_TTL_MIN")
+	if ok {
+		ttlMinutes, err = strconv.Atoi(cacheTtl)
+		if err != nil {
+			log.Printf("*** ERROR in API_CACHE_TTL_MIN env var")
+			ttlMinutes = 10
+		}
 	}
-	cacheTTLMin, _ := strconv.Atoi(cacheTTLStr)
+	log.Printf("Cache TTL is %d minutes", ttlMinutes)
 
-	controllers.CreateCache(apiName, pool, cacheTTLMin)
+	controllers.CreateCache(apiName, pool, ttlMinutes)
 	router := routers.CreateRouter(apiName)
 	n := negroni.Classic()
 	n.UseHandler(router)
