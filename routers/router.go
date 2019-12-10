@@ -70,4 +70,28 @@ func SetRoutes(r *mux.Router) {
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"c", "{c_list:[A-Za-z0-9,]+}",
 	)
+
+	r.HandleFunc("/series/char", controllers.GetCharacteristicData()).Methods("GET").Queries(
+		"f", "{frequency:[AaQqMm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"g", "{g_list:[A-Za-z0-9,]+}",
+	)
+
+	r.HandleFunc("/series/exp", controllers.GetExpenditureData()).Methods("GET").Queries(
+		"f", "{frequency:[AaQqMm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"g", "{g_list:[A-Za-z0-9,]+}",
+		"c", "{c_list:[A-Za-z0-9,]+}",
+	)
+	r.HandleFunc("/series/exp", controllers.GetExpenditureData()).Methods("GET").Queries(
+		"f", "{frequency:[AaQqMm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"g", "{g_list:[A-Za-z0-9,]+}",
+	)
+	r.HandleFunc("/series/exp", controllers.GetExpenditureData()).Methods("GET").Queries(
+		"f", "{frequency:[AaQqMm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"c", "{c_list:[A-Za-z0-9,]+}",
+	)
+
 }
