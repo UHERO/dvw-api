@@ -49,7 +49,7 @@ func GetCharacteristicData() http.HandlerFunc {
 			// do something
 		}
 		groups, _ := getHandleList(r, "g_list")
-		seriesRes, err := data.GetCharacteristicData(module, freq, indicators, groups)
+		seriesRes, err := data.GetCharacteristicData("char", freq, indicators, groups)
 		if err != nil {
 			// do something
 		}
@@ -67,7 +67,7 @@ func GetExpenditureData() http.HandlerFunc {
 		}
 		groups, _ := getHandleList(r, "g_list")
 		categories, _ := getHandleList(r, "c_list")
-		seriesRes, err := data.GetExpenditureData(module, freq, indicators, groups, categories)
+		seriesRes, err := data.GetExpenditureData("exp", freq, indicators, groups, categories)
 		if err != nil {
 			// do something
 		}
