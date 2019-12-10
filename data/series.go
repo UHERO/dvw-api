@@ -156,6 +156,16 @@ func GetHotelData(module, freq string, indicators, categories []string) (result 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+func GetCharacteristicData(module, freq string, indicators, categories []string) (result *SeriesResults, err error) {
+	//language=MySQL
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+func GetExpenditureData(module, freq string, indicators, groups, categories []string) (result *SeriesResults, err error) {
+	//language=MySQL
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 func makeSeriesSlug(parts []string) string {
 	return strings.Join(parts, ":")
 }
