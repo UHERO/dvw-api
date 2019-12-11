@@ -24,7 +24,7 @@ func GetAdeAirseatData(module string) http.HandlerFunc {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetHotelData(module string) http.HandlerFunc {
+func GetHotelData() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		freq, ok := getStrParam(r, "frequency")
 		indicators, ok := getHandleList(r, "i_list")
@@ -32,7 +32,7 @@ func GetHotelData(module string) http.HandlerFunc {
 			// do something
 		}
 		categories, _ := getHandleList(r, "c_list")
-		seriesRes, err := data.GetHotelData(module, freq, indicators, categories)
+		seriesRes, err := data.GetHotelData("HOTEL", freq, indicators, categories)
 		if err != nil {
 			// do something
 		}
