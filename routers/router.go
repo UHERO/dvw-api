@@ -65,9 +65,33 @@ func SetRoutes(r *mux.Router) {
 		"d", "{d_list:[A-Za-z0-9,]+}",
 	)
 
-	r.HandleFunc("/series/hotel", controllers.GetHotelData("hotel")).Methods("GET").Queries(
+	r.HandleFunc("/series/hotel", controllers.GetHotelData()).Methods("GET").Queries(
 		"f", "{frequency:[AaQqMm]}",
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"c", "{c_list:[A-Za-z0-9,]+}",
 	)
+
+	r.HandleFunc("/series/char", controllers.GetCharacteristicData()).Methods("GET").Queries(
+		"f", "{frequency:[AaQqMm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"g", "{g_list:[A-Za-z0-9,]+}",
+	)
+
+	r.HandleFunc("/series/exp", controllers.GetExpenditureData()).Methods("GET").Queries(
+		"f", "{frequency:[AaQqMm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"g", "{g_list:[A-Za-z0-9,]+}",
+		"c", "{c_list:[A-Za-z0-9,]+}",
+	)
+	r.HandleFunc("/series/exp", controllers.GetExpenditureData()).Methods("GET").Queries(
+		"f", "{frequency:[AaQqMm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"g", "{g_list:[A-Za-z0-9,]+}",
+	)
+	r.HandleFunc("/series/exp", controllers.GetExpenditureData()).Methods("GET").Queries(
+		"f", "{frequency:[AaQqMm]}",
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"c", "{c_list:[A-Za-z0-9,]+}",
+	)
+
 }
