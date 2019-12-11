@@ -38,7 +38,7 @@ func (r *Cache) GetCache(key string) ([]byte, error) {
 		return nil, err
 	}
 	if value == nil {
-		log.Printf("Redis cached val nil on GET: %v", err)
+		//log.Printf("Redis cached val nil on GET: %v", err)
 		return nil, err
 	}
 	log.Printf("Redis GET: %s", key)

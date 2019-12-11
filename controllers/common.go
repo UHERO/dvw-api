@@ -8,6 +8,7 @@ import (
 	"github.com/urfave/negroni"
 	"log"
 	"net/http"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -55,10 +56,15 @@ func CheckCache() negroni.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 		if cache != nil {
 			url := GetFullRelativeURL(r)
-			cachedVal, _ := cache.GetCache(url)
-			if cachedVal != nil {
-				WriteResponse(w, cachedVal)
-				return
+			if noCache, _ := regexp.MatchString(`&nocache$`, url); noCache {
+				r.URL.RawQuery = strings.Replace(r.URL.RawQuery, "&nocache", "", -1)
+				log.Printf("Bypassing cache lookup for URL %s", url)
+			} else {
+				cachedVal, _ := cache.GetCache(url)
+				if cachedVal != nil {
+					WriteResponse(w, cachedVal)
+					return
+				}
 			}
 		}
 		next(w, r)
