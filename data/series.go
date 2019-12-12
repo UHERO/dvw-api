@@ -243,13 +243,13 @@ func GetExpenditureData(module, freq string, indicators, groups, categories []st
 		bindVals = append(bindVals, ind)
 	}
 	if len(groups) > 0 {
-		query += "and m.handle in (" + makeQlist(len(groups)) + ")\n"
+		query += "and g.handle in (" + makeQlist(len(groups)) + ")\n"
 		for _, grp := range groups {
 			bindVals = append(bindVals, grp)
 		}
 	}
 	if len(categories) > 0 {
-		query += "and d.handle in (" + makeQlist(len(categories)) + ")\n"
+		query += "and c.handle in (" + makeQlist(len(categories)) + ")\n"
 		for _, cat := range categories {
 			bindVals = append(bindVals, cat)
 		}
