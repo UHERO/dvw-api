@@ -5,7 +5,6 @@ import (
 )
 
 var ModDimList = map[string][]string{
-	"ade": {"markets", "destinations", "indicators"},   // DELEEEEEEEEEEEEEEEEEEEEEEETTTTTTTTTTTTTTTE MEEEEEEEEEEE
 	"trend": {"markets", "destinations", "indicators"},
 	"airseat": {"markets", "destinations", "indicators"},
 	"hotel": {"categories", "indicators"},
