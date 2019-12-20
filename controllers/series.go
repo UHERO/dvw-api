@@ -6,7 +6,7 @@ import (
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetAdeAirseatData(module string) http.HandlerFunc {
+func GetTrendAirseatData(module string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		freq, ok := getStrParam(r, "frequency")
 		indicators, ok := getHandleList(r, "i_list")
@@ -15,7 +15,7 @@ func GetAdeAirseatData(module string) http.HandlerFunc {
 		}
 		markets, _ := getHandleList(r, "m_list")
 		destinations, _ := getHandleList(r, "d_list")
-		seriesRes, err := data.GetAdeAirseatData(module, freq, indicators, markets, destinations)
+		seriesRes, err := data.GetTrendAirseatData(module, freq, indicators, markets, destinations)
 		if err != nil {
 			// do something
 		}

@@ -8,7 +8,7 @@ import (
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 func GetDimensionAll(dim string, mod string) (dimList []Dimension, err error) {
 	if mod == "ade" {
-		mod = "trend"  // GOT TO GET RID O' THIS CR*P AT SOME POINT SOON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		mod = "trend"  // DELEEEEEEEEEEEEEEEEEEEEEEETTTTTTTTTTTTTTTE MEEEEEEEEEEE
 	}
 	xtraCols := ", null, null"  // No unit or decimals for all tables other than indicators
 	if dim == "indicators" {
