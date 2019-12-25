@@ -1,10 +1,10 @@
 CREATE DATABASE IF NOT EXISTS `dbedt_visitor_dw`;
 USE `dbedt_visitor_dw`;
 
-DROP TABLE IF EXISTS `dbedt_visitor_dw.data_points`;
+DROP TABLE IF EXISTS `dbedt_visitor_dw`.`data_points`;
 
-DROP TABLE IF EXISTS `dbedt_visitor_dw.indicators`;
-CREATE TABLE `dbedt_visitor_dw.indicators` (
+DROP TABLE IF EXISTS `dbedt_visitor_dw`.`indicators`;
+CREATE TABLE `dbedt_visitor_dw`.`indicators` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `module` VARCHAR(32) NOT NULL,
     `handle` VARCHAR(8) NOT NULL,
@@ -20,8 +20,8 @@ CREATE TABLE `dbedt_visitor_dw.indicators` (
     INDEX handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `dbedt_visitor_dw.groups`;
-CREATE TABLE `dbedt_visitor_dw.groups` (
+DROP TABLE IF EXISTS `dbedt_visitor_dw`.`groups`;
+CREATE TABLE `dbedt_visitor_dw`.`groups` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `module` VARCHAR(32) NOT NULL,
     `handle` VARCHAR(8) NOT NULL,
@@ -35,8 +35,8 @@ CREATE TABLE `dbedt_visitor_dw.groups` (
     INDEX handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `dbedt_visitor_dw.markets`;
-CREATE TABLE `dbedt_visitor_dw.markets` (
+DROP TABLE IF EXISTS `dbedt_visitor_dw`.`markets`;
+CREATE TABLE `dbedt_visitor_dw`.`markets` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `module` VARCHAR(32) NOT NULL,
     `handle` VARCHAR(8) NOT NULL,
@@ -50,8 +50,8 @@ CREATE TABLE `dbedt_visitor_dw.markets` (
     INDEX handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `dbedt_visitor_dw.destinations`;
-CREATE TABLE `dbedt_visitor_dw.destinations` (
+DROP TABLE IF EXISTS `dbedt_visitor_dw`.`destinations`;
+CREATE TABLE `dbedt_visitor_dw`.`destinations` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `module` VARCHAR(32) NOT NULL,
     `handle` VARCHAR(8) NOT NULL,
@@ -65,8 +65,8 @@ CREATE TABLE `dbedt_visitor_dw.destinations` (
     INDEX handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `dbedt_visitor_dw.categories`;
-CREATE TABLE `dbedt_visitor_dw.categories` (
+DROP TABLE IF EXISTS `dbedt_visitor_dw`.`categories`;
+CREATE TABLE `dbedt_visitor_dw`.`categories` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `module` VARCHAR(32) NOT NULL,
     `handle` VARCHAR(8) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE `dbedt_visitor_dw.categories` (
     INDEX handle_idx (handle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `dbedt_visitor_dw.data_points` (
+CREATE TABLE `dbedt_visitor_dw`.`data_points` (
     `module`  VARCHAR(32) NOT NULL,
     `group_id`  INT,
     `market_id`  INT,
