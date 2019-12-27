@@ -5,7 +5,7 @@ import (
 )
 
 var ModDimList = map[string][]string{
-	"ade": {"markets", "destinations", "indicators"},
+	"trend": {"markets", "destinations", "indicators"},
 	"airseat": {"markets", "destinations", "indicators"},
 	"hotel": {"categories", "indicators"},
 	"char": {"groups", "indicators"},
@@ -15,7 +15,6 @@ var ModDimList = map[string][]string{
 type ScanDimension struct {
 	Module    string
 	Handle    string
-	NameP     sql.NullString
 	NameW     string
 	NameT     sql.NullString
 	Header    bool
@@ -29,7 +28,6 @@ type ScanDimension struct {
 type Dimension struct {
 	Module    string	`json:"module"`
 	Handle    string	`json:"handle"`
-	NameP     string	`json:"nameP,omitempty"`
 	NameW     string	`json:"nameW"`
 	NameT     string	`json:"nameT,omitempty"`
 	Header    bool		`json:"header,omitempty"`

@@ -6,7 +6,7 @@ import (
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetAdeAirseatData(module, freq string, indicators, markets, destinations []string) (result *SeriesResults, err error) {
+func GetTrendAirseatData(module, freq string, indicators, markets, destinations []string) (result *SeriesResults, err error) {
 	//language=MySQL
 	query :=
 		`select i.module, i.handle, m.handle, d.handle, dp.date, dp.value

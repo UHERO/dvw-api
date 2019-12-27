@@ -13,7 +13,7 @@ func GetDimensionAll(dim string, mod string) (dimList []Dimension, err error) {
 	}
 	//language=MySQL
 	var query = fmt.Sprintf(
-	 	 `select t.module, t.handle, t.nameP, t.nameW, t.nameT, t.header, p.handle as parent, t.level, t.order %s
+	 	 `select t.module, t.handle, t.nameW, t.nameT, t.header, p.handle as parent, t.level, t.order %s
           from %s t left join %s p on p.id = t.parent_id
           where t.module = ? `, xtraCols, dim, dim)
 	results, err := Db.Query(query, mod)
@@ -23,7 +23,7 @@ func GetDimensionAll(dim string, mod string) (dimList []Dimension, err error) {
 	}
 	for results.Next() {
 		scanDim := ScanDimension{}
-		err = results.Scan(&scanDim.Module, &scanDim.Handle, &scanDim.NameP, &scanDim.NameW, &scanDim.NameT,
+		err = results.Scan(&scanDim.Module, &scanDim.Handle, &scanDim.NameW, &scanDim.NameT,
 						   &scanDim.Header, &scanDim.Parent, &scanDim.Level, &scanDim.Order, &scanDim.Unit, &scanDim.Decimal)
 		if err != nil {
 			return
@@ -35,9 +35,6 @@ func GetDimensionAll(dim string, mod string) (dimList []Dimension, err error) {
 			Header: scanDim.Header,
 			Level: scanDim.Level,
 			Order: scanDim.Order,
-		}
-		if scanDim.NameP.Valid {
-			pDim.NameP = scanDim.NameP.String
 		}
 		if scanDim.NameT.Valid {
 			pDim.NameT = scanDim.NameT.String
