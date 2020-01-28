@@ -93,5 +93,13 @@ func SetRoutes(r *mux.Router) {
 		"i", "{i_list:[A-Za-z0-9,]+}",
 		"c", "{c_list:[A-Za-z0-9,]+}",
 	)
+	r.HandleFunc("/datavail/{module:[A-Za-z]+}", controllers.GetDataAvailability()).Methods("GET").Queries(
+		"i", "{i_list:[A-Za-z0-9,]+}",
+		"g", "{g_list:[A-Za-z0-9,]+}",
+		"m", "{m_list:[A-Za-z0-9,]+}",
+		"d", "{d_list:[A-Za-z0-9,]+}",
+		"c", "{c_list:[A-Za-z0-9,]+}",
+	)
+
 
 }

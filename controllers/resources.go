@@ -17,3 +17,7 @@ type DimensionListResource struct {
 type SeriesResource struct {
 	Data *data.SeriesResults `json:"data"`
 }
+
+type AvailabilityResource struct {
+	Data *map[string]data.HandleList `json:"data"`
+}
