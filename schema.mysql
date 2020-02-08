@@ -103,3 +103,20 @@ CREATE TABLE `dbedt_visitor_dw`.`data_points` (
     UNIQUE KEY unique_dims_idx (module, group_id, market_id, destination_id, category_id, indicator_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `dbedt_visitor_dw`.`data_toc`;
+CREATE TABLE `dbedt_visitor_dw`.`data_toc` (
+    `module`  VARCHAR(32) NOT NULL,
+    `group_id`  INT,
+    `market_id`  INT,
+    `destination_id`  INT,
+    `category_id`  INT,
+    `indicator_id`  INT,
+    `count`  INT,
+    INDEX mod_index (module),
+    INDEX grp_index (group_id),
+    INDEX mkt_index (market_id),
+    INDEX dst_index (destination_id),
+    INDEX cat_index (category_id),
+    INDEX ind_index (indicator_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
