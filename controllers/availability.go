@@ -13,9 +13,6 @@ func GetDataAvailability() http.HandlerFunc {
 			// do something.. maybe have getStrParam return an error and do as below
 		}
 		indicators, ok := getHandleList(r, "i_list")
-		if !ok {
-			// do something.. maybe have getStrParam return an error and do as below
-		}
 		groups, _ := getHandleList(r, "g_list")
 		markets, _ := getHandleList(r, "m_list")
 		destinations, _ := getHandleList(r, "d_list")
