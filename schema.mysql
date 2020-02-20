@@ -116,6 +116,7 @@ CREATE TABLE `dbedt_visitor_dw`.`data_toc` (
     `destination_id`  INT,
     `category_id`  INT,
     `indicator_id`  INT,
+    `frequency`  ENUM('A','M','Q') NOT NULL,
     `count`  INT,
     INDEX mod_index (module),
     INDEX grp_index (group_id),
