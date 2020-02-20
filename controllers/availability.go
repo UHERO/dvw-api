@@ -28,4 +28,3 @@ func GetDataAvailability() http.HandlerFunc {
 		SendResponseData(w, r, AvailabilityResource{Data: all})
 	}
 }
-
