@@ -8,6 +8,10 @@ import (
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 func GetDataAvailability() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		module, ok := getStrParam(r, "module")
+		if !ok {
+			// do something.. maybe have getStrParam return an error and do as below
+		}
 		indicators, ok := getHandleList(r, "i_list")
 		if !ok {
 			// do something.. maybe have getStrParam return an error and do as below
@@ -16,7 +20,7 @@ func GetDataAvailability() http.HandlerFunc {
 		markets, _ := getHandleList(r, "m_list")
 		destinations, _ := getHandleList(r, "d_list")
 		categories, _ := getHandleList(r, "c_list")
-		all, err := data.GetDataAvailability(indicators, groups, markets, destinations, categories)
+		all, err := data.GetDataAvailability(module, indicators, groups, markets, destinations, categories)
 		if err != nil {
 			// do something.. maybe have getStrParam return an error and do as below
 			return
