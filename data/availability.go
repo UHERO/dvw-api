@@ -47,16 +47,20 @@ func GetFreqAvailability(module string, indicators HandleList, groups HandleList
 			bindVals = append(bindVals, cat)
 		}
 	}
-	// query += "order by 1,2,3,4,5" + "\n" // extra "\n" only to make GoLand shut up about an error :(
+	query += "order by field(frequency,'A','Q','M')" + "" // extra "" only to make GoLand shut up about an error :(
 
 	dbResults, err := Db.Query(query, bindVals...)
 	if err != nil {
 		log.Printf("Database error: %s", err.Error())
 		return
 	}
-	currentSlug := ""
-	var series Series
+	var freq string
 	for dbResults.Next() {
+		err = dbResults.Scan(&freq)
+		if err != nil {
+			return
+		}
+		result = append(result, freq)
 	}
 	return
 }
