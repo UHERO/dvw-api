@@ -12,7 +12,7 @@ func GetAvailability(availType string) http.HandlerFunc {
 		if !ok {
 			// do something.. maybe have getStrParam return an error and do as below
 		}
-		indicators, ok := getHandleList(r, "i_list")
+		indicators, _ := getHandleList(r, "i_list")
 		groups, _ := getHandleList(r, "g_list")
 		markets, _ := getHandleList(r, "m_list")
 		destinations, _ := getHandleList(r, "d_list")

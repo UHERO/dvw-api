@@ -107,6 +107,4 @@ func SetRoutes(r *mux.Router) {
 		"d", "{d_list:[A-Za-z0-9,]+}",
 		"c", "{c_list:[A-Za-z0-9,]+}",
 	)
-
-
 }
