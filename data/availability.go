@@ -3,7 +3,7 @@ package data
 import "log"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetDataAvailability(module string, indicators HandleList, groups HandleList, markets HandleList, destinations HandleList, categories HandleList) (result *map[string]HandleList , err error) {
+func GetFreqAvailability(module string, indicators HandleList, groups HandleList, markets HandleList, destinations HandleList, categories HandleList) (result []string, err error) {
 	//language=MySQL
 	query :=
 		`select distinct frequency
@@ -58,5 +58,10 @@ func GetDataAvailability(module string, indicators HandleList, groups HandleList
 	var series Series
 	for dbResults.Next() {
 	}
+	return
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+func GetDimAvailability(module string, indicators HandleList, groups HandleList, markets HandleList, destinations HandleList, categories HandleList) (result *map[string]HandleList, err error) {
 	return
 }

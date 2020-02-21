@@ -6,7 +6,7 @@ import (
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-func GetDataAvailability() http.HandlerFunc {
+func GetAvailability(availType string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		module, ok := getStrParam(r, "module")
 		if !ok {
@@ -17,11 +17,21 @@ func GetDataAvailability() http.HandlerFunc {
 		markets, _ := getHandleList(r, "m_list")
 		destinations, _ := getHandleList(r, "d_list")
 		categories, _ := getHandleList(r, "c_list")
-		all, err := data.GetDataAvailability(module, indicators, groups, markets, destinations, categories)
-		if err != nil {
-			// do something.. maybe have getStrParam return an error and do as below
-			return
+		if availType == "dim" {
+			all, err := data.GetDimAvailability(module, indicators, groups, markets, destinations, categories)
+			if err != nil {
+				// do something.. maybe have getStrParam return an error and do as below
+				return
+			}
+			SendResponseData(w, r, DimAvailabilityResource{Data: all})
 		}
-		SendResponseData(w, r, AvailabilityResource{Data: all})
+		if availType == "freq" {
+			all, err := data.GetFreqAvailability(module, indicators, groups, markets, destinations, categories)
+			if err != nil {
+				// do something.. maybe have getStrParam return an error and do as below
+				return
+			}
+			SendResponseData(w, r, FreqAvailabilityResource{Data: all})
+		}
 	}
 }

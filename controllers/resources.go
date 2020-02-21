@@ -18,6 +18,10 @@ type SeriesResource struct {
 	Data *data.SeriesResults `json:"data"`
 }
 
-type AvailabilityResource struct {
+type DimAvailabilityResource struct {
 	Data *map[string]data.HandleList `json:"data"`
+}
+
+type FreqAvailabilityResource struct {
+	Data []string `json:"data"`
 }
