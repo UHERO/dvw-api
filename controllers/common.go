@@ -115,12 +115,14 @@ func getHandleList(r *http.Request, name string) (handles []string, ok bool) {
 	ok = true
 	handleList, ok := mux.Vars(r)[name]
 	if !ok {
-		// do something?
+		// It just didn't exist.
 		return
 	}
 	handleArray := strings.Split(handleList, ",")
 	for _, handle := range handleArray {
-		handles = append(handles, strings.ToUpper(handle))
+		if handle != "0" {
+			handles = append(handles, strings.ToUpper(handle))
+		}
 	}
 	return
 }

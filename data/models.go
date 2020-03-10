@@ -63,3 +63,5 @@ type SeriesResults struct {
 	ObsEnd		UhTime		`json:"observationEnd,omitempty"`
 	SeriesList	[]Series	`json:"series"`
 }
+
+type HandleList []string
