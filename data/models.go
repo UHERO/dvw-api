@@ -17,6 +17,7 @@ type ScanDimension struct {
 	Handle    string
 	NameW     string
 	NameT     sql.NullString
+	Info	  sql.NullString
 	Header    bool
 	Parent    sql.NullString
 	Level	  int
@@ -30,6 +31,7 @@ type Dimension struct {
 	Handle    string	`json:"handle"`
 	NameW     string	`json:"nameW"`
 	NameT     string	`json:"nameT,omitempty"`
+	Info      string	`json:"info,omitempty"`
 	Header    bool		`json:"header,omitempty"`
 	Parent    string	`json:"parent,omitempty"`
 	Level	  int		`json:"level"`
@@ -61,3 +63,5 @@ type SeriesResults struct {
 	ObsEnd		UhTime		`json:"observationEnd,omitempty"`
 	SeriesList	[]Series	`json:"series"`
 }
+
+type HandleList []string
