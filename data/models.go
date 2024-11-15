@@ -45,7 +45,7 @@ type ScanObservation struct {
 	Dim2	sql.NullString
 	Dim3	sql.NullString
 	Date	UhTime
-	Value	float32
+	Value	float64
 }
 
 type Series struct {
@@ -53,7 +53,7 @@ type Series struct {
 	ObsStart	UhTime		`json:"observationStart,omitempty"`
 	ObsEnd		UhTime		`json:"observationEnd,omitempty"`
 	Dates   	[]UhTime	`json:"dates"`
-	Values  	[]float32	`json:"values"`
+	Values  	[]float64	`json:"values"`
 }
 
 type SeriesResults struct {
